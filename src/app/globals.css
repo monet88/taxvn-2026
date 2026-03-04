@@ -227,10 +227,10 @@ body {
   animation: fade-in 0.2s ease-out forwards;
 }
 
-@keyframes bottom-sheet-up {
+@keyframes gentle-appear {
   from {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -239,7 +239,7 @@ body {
 }
 
 .animate-slide-up {
-  animation: bottom-sheet-up 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  animation: gentle-appear 0.5s ease-out forwards;
 }
 
 .animate-bounce-subtle {
@@ -283,8 +283,7 @@ body {
 }
 
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.12);
 }
 
 /* ===== Modern Scrollbar ===== */
