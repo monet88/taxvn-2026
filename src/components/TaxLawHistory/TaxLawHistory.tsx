@@ -202,7 +202,7 @@ function DeductionHistory() {
 export default function TaxLawHistory() {
   const [activeSection, setActiveSection] = useState<'timeline' | 'comparison' | 'deductions'>('timeline');
 
-  const oldPeriod = TAX_LAW_PERIODS.find(p => p.id === '2020-2026');
+  const oldPeriod = TAX_LAW_PERIODS.find(p => p.id === '2020-2025');
   const newPeriod = TAX_LAW_PERIODS.find(p => p.id === '2026-new');
 
   // Ensure we have the required periods - should always exist but add safety check
