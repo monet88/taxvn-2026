@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useScrollReveal } from '@/hooks';
 
 // Type definitions
 interface FeatureItem {
@@ -733,317 +734,179 @@ const features: FeatureCategory[] = [
   },
 ];
 
-// Comparison data for hero section
-const comparisonData = {
-  old: {
-    brackets: 7,
-    personalDeduction: 11,
-    dependentDeduction: 4.4,
-    maxRate: 35,
-  },
-  new: {
-    brackets: 5,
-    personalDeduction: 15.5,
-    dependentDeduction: 6.2,
-    maxRate: 30,
-  },
-};
+// Feature category block component with scroll-reveal
+function FeatureCategoryBlock({
+  category,
+  categoryIndex,
+  expandedCategories,
+  setExpandedCategories,
+}: {
+  category: FeatureCategory;
+  categoryIndex: number;
+  expandedCategories: Record<number, boolean>;
+  setExpandedCategories: React.Dispatch<React.SetStateAction<Record<number, boolean>>>;
+}) {
+  const { ref, isVisible } = useScrollReveal();
+  const COLLAPSE_THRESHOLD = 8;
+  const shouldCollapse = category.items.length > COLLAPSE_THRESHOLD;
+  const isExpanded = expandedCategories[categoryIndex];
+  const visibleItems = shouldCollapse && !isExpanded
+    ? category.items.slice(0, 4)
+    : category.items;
+  const hiddenCount = category.items.length - 4;
+
+  return (
+    <div ref={ref} className={`mb-16 last:mb-0 reveal ${isVisible ? 'revealed' : ''}`}>
+      {/* Category Header */}
+      <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className="w-1.5 h-8 bg-blue-600 rounded-full" />
+          <div>
+            <h3 className="text-xl font-bold text-gray-900">
+              {category.category}
+            </h3>
+            <p className="text-sm text-gray-500">{category.description}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Feature Grid */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        {visibleItems.map((feature) => (
+          <Link
+            key={feature.name}
+            href={feature.href}
+            className={`group relative bg-white rounded-2xl p-5 sm:p-6 transition-shadow duration-300 hover:shadow-md border border-gray-100 hover:border-gray-200 h-full flex flex-col ${
+              feature.highlight
+                ? 'ring-2 ring-blue-500/20 shadow-lg shadow-blue-500/5'
+                : ''
+            }`}
+          >
+            {feature.badge && (
+              <span className="absolute top-4 right-4 text-xs font-semibold bg-gradient-to-r from-orange-500 to-rose-500 text-white px-2.5 py-1 rounded-full shadow-sm">
+                {feature.badge}
+              </span>
+            )}
+            <div
+              className={`w-12 h-12 rounded-xl ${feature.bgColor} ${feature.color} flex items-center justify-center mb-4 transition-colors duration-300`}
+            >
+              {feature.icon}
+            </div>
+            <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+              {feature.name}
+            </h4>
+            <p className="text-sm text-gray-500 line-clamp-2 sm:line-clamp-3 leading-relaxed flex-grow">
+              {feature.description}
+            </p>
+            <div className="flex items-center gap-1.5 text-blue-600 text-sm font-medium opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-300 transform translate-x-0 group-hover:translate-x-1 mt-auto pt-4">
+              <span>Sử dụng ngay</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {shouldCollapse && (
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setExpandedCategories(prev => ({ ...prev, [categoryIndex]: !isExpanded }))}
+            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all duration-200"
+          >
+            {isExpanded ? (
+              <>
+                Thu gọn
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              </>
+            ) : (
+              <>
+                Xem thêm {hiddenCount} công cụ khác
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </>
+            )}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
   const [expandedCategories, setExpandedCategories] = useState<Record<number, boolean>>({});
-  const blobRef0 = useRef<HTMLDivElement>(null);
-  const blobRef1 = useRef<HTMLDivElement>(null);
-  const blobRef2 = useRef<HTMLDivElement>(null);
+  const statsReveal = useScrollReveal();
+  const featuresHeaderReveal = useScrollReveal();
+  const faqReveal = useScrollReveal();
+  const ctaReveal = useScrollReveal();
 
   useEffect(() => {
     setMounted(true);
-
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const y = window.scrollY;
-          if (blobRef0.current) blobRef0.current.style.transform = `translateY(${y * 0.04}px)`;
-          if (blobRef1.current) blobRef1.current.style.transform = `translateY(${y * 0.06}px)`;
-          if (blobRef2.current) blobRef2.current.style.transform = `translateY(${y * -0.04}px)`;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <main className="min-h-screen overflow-hidden">
-      {/* Shared Header - Transparent variant for hero, no spacer needed */}
-      <Header variant="transparent" showSpacer={false} />
+    <main className="min-h-screen bg-white">
+      <Header variant="solid" showSpacer={true} />
 
-      {/* Hero Section - Modern Gradient with Animated Blobs */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Gradient Orbs */}
+      {/* Hero Section - Clean white, bold typography */}
+      <section className="bg-white pt-12 sm:pt-20 lg:pt-28 pb-16 sm:pb-24 lg:pb-32">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Badge */}
           <div
-            ref={blobRef0}
-            className="absolute top-0 -left-40 w-72 h-72 sm:w-96 sm:h-96 bg-blue-500/20 rounded-full blur-3xl animate-blob"
-          />
-          <div
-            ref={blobRef1}
-            className="absolute top-1/4 -right-40 w-72 h-72 sm:w-96 sm:h-96 bg-purple-500/20 rounded-full blur-3xl animate-blob animation-delay-200"
-          />
-          <div
-            ref={blobRef2}
-            className="absolute bottom-0 left-1/3 w-72 h-72 sm:w-96 sm:h-96 bg-cyan-500/15 rounded-full blur-3xl animate-blob animation-delay-400"
-          />
-
-          {/* Grid Pattern Overlay */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
-
-          {/* Radial Gradient Overlay */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(15,23,42,0.5)_100%)]" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 lg:pt-32 pb-20 sm:pb-28 lg:pb-32">
-          <div className="text-center">
-            {/* Badge */}
-            <div
-              className={`inline-flex items-center gap-2.5 px-5 py-2.5 glass rounded-full text-sm text-white/90 mb-8 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}
-            >
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
-              </span>
-              <span className="font-medium">
-                Cập nhật Luật Thuế TNCN mới nhất - có hiệu lực từ 1/1/2026
-              </span>
-            </div>
-
-            {/* Main Title */}
-            <h1
-              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 ${mounted ? 'animate-slide-up animation-delay-100' : 'opacity-0'}`}
-            >
-              <span className="text-white">Tính Thuế TNCN </span>
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                2026
-              </span>
-            </h1>
-
-            {/* Subtitle with Animation */}
-            <p
-              className={`text-xl sm:text-2xl lg:text-3xl text-blue-200/80 font-light mb-4 ${mounted ? 'animate-slide-up animation-delay-200' : 'opacity-0'}`}
-            >
-              Miễn phí &middot; Chính xác &middot; Dễ sử dụng
-            </p>
-
-            {/* Description */}
-            <p
-              className={`text-lg text-blue-100/60 max-w-2xl mx-auto mb-12 leading-relaxed ${mounted ? 'animate-slide-up animation-delay-300' : 'opacity-0'}`}
-            >
-              Công cụ tính thuế thu nhập cá nhân toàn diện nhất Việt Nam. So
-              sánh luật cũ và luật mới 2026, quy đổi GROSS-NET, quyết toán thuế
-              năm, và nhiều hơn nữa.
-            </p>
-
-            {/* CTA Buttons */}
-            <div
-              className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 ${mounted ? 'animate-slide-up animation-delay-400' : 'opacity-0'}`}
-            >
-              <Link
-                href="/tinh-thue"
-                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] min-h-[56px] overflow-hidden"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <svg
-                  className="w-5 h-5 relative z-10"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                  />
-                </svg>
-                <span className="relative z-10">Bắt đầu tính thuế</span>
-                <svg
-                  className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </Link>
-
-              <a
-                href="#features"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 glass text-white font-medium rounded-2xl hover:bg-white/10 transition-all duration-300 min-h-[56px]"
-              >
-                Xem tất cả tính năng
-                <svg
-                  className="w-5 h-5 animate-bounce-subtle"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </a>
-            </div>
-
-            {/* Comparison Cards - Glass Morphism */}
-            <div
-              className={`grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto ${mounted ? 'animate-slide-up animation-delay-500' : 'opacity-0'}`}
-            >
-              {/* Old Law Card */}
-              <div className="group glass rounded-3xl p-6 text-left transition-all duration-300 hover:bg-white/[0.08] hover:scale-[1.02]">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center">
-                    <div className="w-3 h-3 bg-red-400 rounded-full" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white">Luật hiện hành</h3>
-                    <span className="text-xs text-red-300/80">7 bậc thuế</span>
-                  </div>
-                </div>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between items-center py-2 border-b border-white/5">
-                    <span className="text-blue-100/60">Giảm trừ bản thân</span>
-                    <span className="font-semibold text-white">
-                      {comparisonData.old.personalDeduction} triệu
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/5">
-                    <span className="text-blue-100/60">Giảm trừ phụ thuộc</span>
-                    <span className="font-semibold text-white">
-                      {comparisonData.old.dependentDeduction} triệu
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-2">
-                    <span className="text-blue-100/60">Thuế suất cao nhất</span>
-                    <span className="font-semibold text-white">
-                      {comparisonData.old.maxRate}%
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* New Law Card */}
-              <div className="group relative glass rounded-3xl p-6 text-left transition-all duration-300 hover:bg-white/[0.08] hover:scale-[1.02] ring-1 ring-emerald-400/30">
-                {/* Highlight Gradient Border */}
-                <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-r from-emerald-400/20 via-cyan-400/20 to-blue-400/20 -z-10" />
-
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                    <div className="w-3 h-3 bg-emerald-400 rounded-full" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white">Luật mới 2026</h3>
-                    <span className="text-xs text-emerald-300/80">
-                      5 bậc thuế - Có lợi hơn
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between items-center py-2 border-b border-white/5">
-                    <span className="text-blue-100/60">Giảm trừ bản thân</span>
-                    <span className="font-semibold text-emerald-400 flex items-center gap-1">
-                      {comparisonData.new.personalDeduction} triệu
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 10l7-7m0 0l7 7m-7-7v18"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/5">
-                    <span className="text-blue-100/60">Giảm trừ phụ thuộc</span>
-                    <span className="font-semibold text-emerald-400 flex items-center gap-1">
-                      {comparisonData.new.dependentDeduction} triệu
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 10l7-7m0 0l7 7m-7-7v18"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-2">
-                    <span className="text-blue-100/60">Thuế suất cao nhất</span>
-                    <span className="font-semibold text-emerald-400 flex items-center gap-1">
-                      {comparisonData.new.maxRate}%
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Wave */}
-        <div className="absolute bottom-0 left-0 right-0 text-slate-50">
-          <svg
-            viewBox="0 0 1440 120"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full"
-            preserveAspectRatio="none"
+            className={`inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full text-sm text-emerald-700 font-medium mb-8 transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}
           >
-            <path
-              d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-              fill="currentColor"
-            />
-          </svg>
+            <span className="w-2 h-2 bg-emerald-500 rounded-full" />
+            Cập nhật Luật Thuế TNCN mới nhất – có hiệu lực từ 1/1/2026
+          </div>
+
+          {/* Main Title */}
+          <h1
+            className={`text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-gray-900 tracking-tight mb-6 transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          >
+            Tính Thuế TNCN{' '}
+            <span className="text-blue-600">2026</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p
+            className={`text-xl sm:text-2xl text-gray-500 font-light mb-6 transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          >
+            Miễn phí &middot; Chính xác &middot; Dễ sử dụng
+          </p>
+
+          {/* Description */}
+          <p
+            className={`text-lg text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          >
+            Công cụ tính thuế thu nhập cá nhân toàn diện nhất Việt Nam. So sánh luật cũ và luật mới 2026, quy đổi GROSS–NET, quyết toán thuế năm, và nhiều hơn nữa.
+          </p>
+
+          {/* CTA */}
+          <div className={`transition-all duration-700 delay-[400ms] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <Link
+              href="/tinh-thue"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700 transition-colors duration-200 text-lg"
+            >
+              Bắt đầu tính thuế
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Stats Section - Clean and Modern */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-slate-50">
+      {/* Stats Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div
+            ref={statsReveal.ref}
+            className={`grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 reveal-stagger ${statsReveal.isVisible ? 'revealed' : ''}`}
+          >
             {[
               {
                 value: 20,
@@ -1101,7 +964,7 @@ export default function HomePage() {
             ].map((stat, index) => (
               <div
                 key={index}
-                className={`text-center p-4 sm:p-6 rounded-2xl ${stat.bgColor} transition-all duration-300 hover:scale-[1.02]`}
+                className={`text-center p-4 sm:p-6 rounded-2xl ${stat.bgColor}`}
               >
                 <div className={`inline-flex items-center justify-center w-9 h-9 rounded-lg ${stat.bgColor} ${stat.color} mb-2 opacity-60`}>
                   {stat.icon}
@@ -1124,11 +987,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section - Card Grid */}
-      <section id="features" className="py-20 sm:py-28 bg-white">
+      {/* Features Section */}
+      <section id="features" className="py-20 sm:py-28 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div
+            ref={featuresHeaderReveal.ref}
+            className={`text-center mb-16 reveal ${featuresHeaderReveal.isVisible ? 'revealed' : ''}`}
+          >
             <span className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 text-sm font-medium rounded-full mb-4">
               Tính năng
             </span>
@@ -1136,235 +1002,125 @@ export default function HomePage() {
               Tất cả công cụ bạn cần
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Từ tính thuế cơ bản đến các công cụ chuyên sâu cho doanh nghiệp
-              và cá nhân
+              Từ tính thuế cơ bản đến các công cụ chuyên sâu cho doanh nghiệp và cá nhân
             </p>
           </div>
 
           {/* Feature Categories */}
-          {features.map((category, categoryIndex) => {
-            const COLLAPSE_THRESHOLD = 8;
-            const shouldCollapse = category.items.length > COLLAPSE_THRESHOLD;
-            const isExpanded = expandedCategories[categoryIndex];
-            const visibleItems = shouldCollapse && !isExpanded
-              ? category.items.slice(0, 4)
-              : category.items;
-            const hiddenCount = category.items.length - 4;
-
-            return (
-            <div key={category.category} className="mb-16 last:mb-0">
-              {/* Category Header */}
-              <div className="flex items-center gap-4 mb-8">
-                <div className="flex items-center gap-3">
-                  <div className="w-1.5 h-8 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full" />
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {category.category}
-                    </h3>
-                    <p className="text-sm text-gray-500">{category.description}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Feature Grid */}
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-                {visibleItems.map((feature, featureIndex) => (
-                  <Link
-                    key={feature.name}
-                    href={feature.href}
-                    className={`group relative bg-white rounded-2xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/50 border border-gray-100 hover:border-gray-200 card-hover h-full flex flex-col ${
-                      feature.highlight
-                        ? 'ring-2 ring-blue-500/20 shadow-lg shadow-blue-500/5'
-                        : ''
-                    }`}
-                    style={{
-                      animationDelay: `${(categoryIndex * 100 + featureIndex * 50)}ms`,
-                    }}
-                  >
-                    {/* Badge */}
-                    {feature.badge && (
-                      <span className="absolute top-4 right-4 text-xs font-semibold bg-gradient-to-r from-orange-500 to-rose-500 text-white px-2.5 py-1 rounded-full shadow-sm">
-                        {feature.badge}
-                      </span>
-                    )}
-
-                    {/* Icon */}
-                    <div
-                      className={`w-12 h-12 rounded-xl ${feature.bgColor} ${feature.color} flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110`}
-                    >
-                      {feature.icon}
-                    </div>
-
-                    {/* Content */}
-                    <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                      {feature.name}
-                    </h4>
-                    <p className="text-sm text-gray-500 line-clamp-2 sm:line-clamp-3 leading-relaxed flex-grow">
-                      {feature.description}
-                    </p>
-
-                    {/* Hover Arrow */}
-                    <div className="flex items-center gap-1.5 text-blue-600 text-sm font-medium opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-300 transform translate-x-0 group-hover:translate-x-1 mt-auto pt-4">
-                      <span>Sử dụng ngay</span>
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 7l5 5m0 0l-5 5m5-5H6"
-                        />
-                      </svg>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              {/* Expand/Collapse button */}
-              {shouldCollapse && (
-                <div className="flex justify-center mt-6">
-                  <button
-                    onClick={() => setExpandedCategories(prev => ({ ...prev, [categoryIndex]: !isExpanded }))}
-                    className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all duration-200"
-                  >
-                    {isExpanded ? (
-                      <>
-                        Thu gọn
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                        </svg>
-                      </>
-                    ) : (
-                      <>
-                        Xem thêm {hiddenCount} công cụ khác
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
-          );
-          })}
+          {features.map((category, categoryIndex) => (
+            <FeatureCategoryBlock
+              key={category.category}
+              category={category}
+              categoryIndex={categoryIndex}
+              expandedCategories={expandedCategories}
+              setExpandedCategories={setExpandedCategories}
+            />
+          ))}
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 sm:py-28 bg-slate-50">
+      <section className="py-20 sm:py-28 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 text-sm font-medium rounded-full mb-4">
-              FAQ
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Câu hỏi thường gặp
-            </h2>
-            <p className="text-lg text-gray-600">
-              Giải đáp nhanh các thắc mắc phổ biến về thuế TNCN 2026
-            </p>
-          </div>
+          <div
+            ref={faqReveal.ref}
+            className={`reveal ${faqReveal.isVisible ? 'revealed' : ''}`}
+          >
+            {/* Section Header */}
+            <div className="text-center mb-12">
+              <span className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 text-sm font-medium rounded-full mb-4">
+                FAQ
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                Câu hỏi thường gặp
+              </h2>
+              <p className="text-lg text-gray-600">
+                Giải đáp nhanh các thắc mắc phổ biến về thuế TNCN 2026
+              </p>
+            </div>
 
-          {/* FAQ Accordion */}
-          <div className="space-y-3">
-            {[
-              {
-                q: 'Luật thuế TNCN mới 2026 có gì khác so với luật cũ?',
-                a: 'Luật thuế mới giảm từ 7 bậc xuống 5 bậc, tăng giảm trừ gia cảnh lên 15,5 triệu/tháng cho bản thân và 6,2 triệu/tháng cho người phụ thuộc. Mức thuế suất cao nhất giảm từ 35% xuống 30%.',
-              },
-              {
-                q: 'Khi nào luật thuế TNCN mới có hiệu lực?',
-                a: 'Luật Thuế TNCN sửa đổi được Quốc hội thông qua ngày 10/12/2025, có hiệu lực từ 1/7/2026. Tuy nhiên, đối với thu nhập từ tiền lương, tiền công, biểu thuế mới (5 bậc, giảm trừ 15,5 triệu) áp dụng từ kỳ tính thuế năm 2026 (tức từ 1/1/2026) theo điều khoản chuyển tiếp.',
-              },
-              {
-                q: 'GROSS và NET trong lương là gì?',
-                a: 'GROSS là tổng lương trước khi trừ thuế và bảo hiểm. NET là lương thực nhận sau khi đã trừ thuế TNCN, BHXH, BHYT, BHTN. Công cụ này giúp quy đổi giữa GROSS và NET một cách chính xác.',
-              },
-              {
-                q: 'Thuế ESOP và cổ phiếu được tính như thế nào?',
-                a: 'Thuế ESOP được tính trên chênh lệch giữa giá thị trường và giá mua ưu đãi. Công cụ ESOP Calculator giúp tính thuế chính xác cho các trường hợp nhận cổ phiếu từ công ty.',
-              },
-              {
-                q: 'Làm sao để tối ưu thuế thưởng Tết?',
-                a: 'Sử dụng Bonus Calculator để tính thuế thưởng Tết, lương tháng 13. Công cụ này giúp so sánh các phương án tính thuế để tối ưu hóa số tiền thực nhận.',
-              },
-              {
-                q: 'Người nước ngoài làm việc tại Việt Nam đóng thuế như thế nào?',
-                a: 'Người nước ngoài có thể là cư trú hoặc không cư trú thuế tại Việt Nam. Nếu ở từ 183 ngày trở lên trong năm, áp dụng thuế suất lũy tiến từ 5-35%. Nếu dưới 183 ngày, áp dụng thuế suất cố định 20%. Việt Nam có hiệp định tránh đánh thuế hai lần với hơn 70 quốc gia.',
-              },
-            ].map((faq, index) => (
-              <details
-                key={index}
-                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-200 hover:border-gray-200 hover:shadow-sm"
-              >
-                <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-medium text-gray-900 select-none [&::-webkit-details-marker]:hidden">
-                  <span>{faq.q}</span>
-                  <svg
-                    className="w-5 h-5 text-gray-400 shrink-0 transition-transform duration-200 group-open:rotate-180"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <div className="px-6 pb-5 text-gray-600 leading-relaxed border-t border-gray-50 pt-4">
-                  {faq.a}
-                </div>
-              </details>
-            ))}
+            {/* FAQ Accordion */}
+            <div className="space-y-3">
+              {[
+                {
+                  q: 'Luật thuế TNCN mới 2026 có gì khác so với luật cũ?',
+                  a: 'Luật thuế mới giảm từ 7 bậc xuống 5 bậc, tăng giảm trừ gia cảnh lên 15,5 triệu/tháng cho bản thân và 6,2 triệu/tháng cho người phụ thuộc. Mức thuế suất cao nhất giảm từ 35% xuống 30%.',
+                },
+                {
+                  q: 'Khi nào luật thuế TNCN mới có hiệu lực?',
+                  a: 'Luật Thuế TNCN sửa đổi được Quốc hội thông qua ngày 10/12/2025, có hiệu lực từ 1/7/2026. Tuy nhiên, đối với thu nhập từ tiền lương, tiền công, biểu thuế mới (5 bậc, giảm trừ 15,5 triệu) áp dụng từ kỳ tính thuế năm 2026 (tức từ 1/1/2026) theo điều khoản chuyển tiếp.',
+                },
+                {
+                  q: 'GROSS và NET trong lương là gì?',
+                  a: 'GROSS là tổng lương trước khi trừ thuế và bảo hiểm. NET là lương thực nhận sau khi đã trừ thuế TNCN, BHXH, BHYT, BHTN. Công cụ này giúp quy đổi giữa GROSS và NET một cách chính xác.',
+                },
+                {
+                  q: 'Thuế ESOP và cổ phiếu được tính như thế nào?',
+                  a: 'Thuế ESOP được tính trên chênh lệch giữa giá thị trường và giá mua ưu đãi. Công cụ ESOP Calculator giúp tính thuế chính xác cho các trường hợp nhận cổ phiếu từ công ty.',
+                },
+                {
+                  q: 'Làm sao để tối ưu thuế thưởng Tết?',
+                  a: 'Sử dụng Bonus Calculator để tính thuế thưởng Tết, lương tháng 13. Công cụ này giúp so sánh các phương án tính thuế để tối ưu hóa số tiền thực nhận.',
+                },
+                {
+                  q: 'Người nước ngoài làm việc tại Việt Nam đóng thuế như thế nào?',
+                  a: 'Người nước ngoài có thể là cư trú hoặc không cư trú thuế tại Việt Nam. Nếu ở từ 183 ngày trở lên trong năm, áp dụng thuế suất lũy tiến từ 5-35%. Nếu dưới 183 ngày, áp dụng thuế suất cố định 20%. Việt Nam có hiệp định tránh đánh thuế hai lần với hơn 70 quốc gia.',
+                },
+              ].map((faq, index) => (
+                <details
+                  key={index}
+                  className="group bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden transition-all duration-200 hover:border-gray-200"
+                >
+                  <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-medium text-gray-900 select-none [&::-webkit-details-marker]:hidden">
+                    <span>{faq.q}</span>
+                    <svg
+                      className="w-5 h-5 text-gray-400 shrink-0 transition-transform duration-200 group-open:rotate-180"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div className="px-6 pb-5 text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Gradient with Pattern */}
-      <section className="relative py-20 sm:py-28 overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
-          {/* Pattern Overlay */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px]" />
-          {/* Gradient Orbs */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl" />
-        </div>
-
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+      {/* CTA Section - Clean, minimal */}
+      <section className="py-20 sm:py-28 bg-gray-50">
+        <div
+          ref={ctaReveal.ref}
+          className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal ${ctaReveal.isVisible ? 'revealed' : ''}`}
+        >
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             Sẵn sàng tính thuế?
           </h2>
-          <p className="text-lg sm:text-xl text-blue-100/80 mb-10 max-w-2xl mx-auto">
-            Chỉ cần nhập thu nhập, hệ thống sẽ tự động tính toán và so sánh thuế
-            TNCN theo cả luật cũ và luật mới cho bạn.
+          <p className="text-lg sm:text-xl text-gray-500 mb-10 max-w-2xl mx-auto">
+            Chỉ cần nhập thu nhập, hệ thống sẽ tự động tính toán và so sánh thuế TNCN theo cả luật cũ và luật mới cho bạn.
           </p>
           <Link
             href="/tinh-thue"
-            className="group inline-flex items-center gap-3 px-10 py-5 bg-white text-blue-600 font-semibold rounded-2xl shadow-xl shadow-blue-900/20 hover:shadow-2xl hover:shadow-blue-900/30 transition-all duration-300 hover:scale-[1.02]"
+            className="inline-flex items-center gap-3 px-10 py-5 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700 transition-colors duration-200 text-lg"
           >
-            <span>Bắt đầu ngay - Miễn phí</span>
+            Bắt đầu ngay – Miễn phí
             <svg
-              className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
         </div>
       </section>
 
-      {/* Footer - Reusable Component */}
       <Footer />
     </main>
   );
