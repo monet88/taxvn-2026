@@ -2,7 +2,7 @@
 
 ## What This Is
 
-App tính thuế thu nhập cá nhân Việt Nam toàn diện — phiên bản mobile (React Native) thay thế web hiện tại. Backend Node.js cung cấp API, xác thực người dùng, và lưu trữ dữ liệu. Hỗ trợ đầy đủ Luật thuế TNCN 2026 (Luật 109/2025/QH15) với 40+ công cụ tính thuế chuyên biệt.
+App tính thuế thu nhập cá nhân Việt Nam toàn diện — phiên bản mobile (React Native). Tax-core chạy trực tiếp trong mobile app (client-side primary calculation). Backend Node.js chỉ xử lý xác thực, lưu lịch sử, và push notification. Hỗ trợ đầy đủ Luật thuế TNCN 2026 (Luật 109/2025/QH15) với 40+ công cụ tính thuế chuyên biệt.
 
 ## Core Value
 
@@ -26,7 +26,7 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 ### Active
 
 - [ ] React Native mobile app (iOS + Android)
-- [ ] Node.js backend API cho toàn bộ logic tính thuế
+- [ ] Node.js backend API cho auth, history, push notification (KHÔNG có calculator endpoints)
 - [ ] Đăng nhập/Đăng ký (email + Google OAuth)
 - [ ] Lưu lịch sử tính thuế theo tài khoản
 - [ ] Push notification nhắc deadline thuế và thay đổi luật
@@ -34,8 +34,8 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 
 ### Out of Scope
 
-- Web app hiện tại sẽ deprecate — không duy trì song song
-- Offline mode — v2
+- Web app hiện tại thuộc bên thứ ba — build independent product
+- Full offline mode with sync — v2 (nhưng client-side calculation hoạt động offline sẵn)
 - Dark mode — v2
 - Đa ngôn ngữ (i18n) — chỉ tiếng Việt trong v1
 - Admin dashboard — v2
@@ -43,7 +43,7 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 ## Context
 
 - Codebase hiện tại là Next.js 16 static export, hoàn toàn client-side, không có backend
-- Business logic đã tách biệt hoàn toàn trong `src/lib/` (40+ pure TypeScript modules) — có thể reuse cho backend
+- Business logic đã tách biệt hoàn toàn trong `src/lib/` (40+ TypeScript modules, 2 non-pure imports cần fix) — extract thành @taxvn/tax-core, chạy trực tiếp trong mobile
 - State management hiện tại dùng props drilling từ một page.tsx duy nhất — cần thiết kế lại cho mobile
 - Snapshot codec (lz-string) hiện dùng cho URL sharing — cần migration strategy
 - PWA đã có nhưng sẽ thay bằng native app
@@ -61,10 +61,11 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Thay thế web thay vì chạy song song | Tập trung resource vào một platform | — Pending |
-| Port toàn bộ 40+ tools trong v1 | Không muốn mất feature khi migrate | — Pending |
-| Node.js backend với API + Auth + DB | Cần lưu lịch sử và push notification | — Pending |
-| Database: để research quyết định | Chưa xác định PostgreSQL vs MongoDB | — Pending |
+| Build independent mobile product | Web không thuộc sở hữu founder, cần product riêng | ✓ Approved |
+| Port toàn bộ 40+ tools trong v1 | Không muốn mất feature khi migrate | ✓ Approved |
+| Client-side primary calculation | tax-core chạy trong mobile, backend chỉ auth+history+push. Loại bỏ SPOF, giảm latency, offline-ready | ✓ Approved (CEO review) |
+| Node.js backend cho auth + history + push | Cần user accounts và persistence, KHÔNG cần calculator endpoints | ✓ Approved |
+| PostgreSQL | ACID cho financial data, relational model phù hợp tax history schema | ✓ Approved |
 
 ## Evolution
 
@@ -84,4 +85,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-31 after initialization*
+*Last updated: 2026-04-01 after CEO review — architecture revised to client-side primary calculation*

@@ -7,9 +7,9 @@
 
 ## Executive Summary
 
-TaxVN Mobile is a migration of a proven Next.js tax calculator (40+ tools, 18,757 lines of pure TypeScript logic) into a mobile-first React Native app with a supporting Node.js backend. The core strategic advantage of this project is already built: the existing `src/lib/` modules are zero-dependency pure TypeScript and can be extracted verbatim into a shared `@taxvn/tax-core` package consumed by both the backend API and — optionally — the mobile client. The recommended approach is a pnpm + Turborepo monorepo with three workspaces: `packages/tax-core` (the extracted logic), `apps/api` (Fastify + PostgreSQL), and `apps/mobile` (Expo SDK 55). Calculations are authoritative on the backend; the mobile app is a thin UI layer that sends inputs and displays results.
+TaxVN Mobile is a migration of a proven Next.js tax calculator (40+ tools, 18,757 lines of pure TypeScript logic) into a mobile-first React Native app with a supporting Node.js backend. The core strategic advantage of this project is already built: the existing `src/lib/` modules are zero-dependency pure TypeScript and can be extracted verbatim into a shared `@taxvn/tax-core` package consumed by both the backend API and — optionally — the mobile client. The recommended approach is a pnpm + Turborepo monorepo with three workspaces: `packages/tax-core` (the extracted logic), `apps/api` (Fastify + PostgreSQL), and `apps/mobile` (Expo SDK 55). **REVISED (2026-04-01, CEO review):** Tax-core chạy trực tiếp trong mobile app (client-side primary calculation). Backend chỉ xử lý auth, history persistence, push notification, và share tokens. Mobile app import @taxvn/tax-core trực tiếp, tất cả computation xảy ra on-device.
 
-The dominant design decision is that the mobile app must NEVER perform tax calculations independently of the backend. Calculation correctness is a legal compliance requirement, and the existing codebase already contains documented constant drift between modules. A backend-authoritative model — where mobile calls the API and the API calls `tax-core` — guarantees bit-for-bit identical results across all surfaces and makes tax law updates a single-point change. The entire technology stack (Expo SDK 55, Fastify 5, Prisma 7, TanStack Query v5, Zustand 5) is current as of March 2026, with verified npm versions and official documentation backing each choice.
+The dominant design decision (revised from original backend-authoritative) is that **tax-core runs directly in the mobile app as the primary compute engine**. The backend is simplified to auth + history + push only. Rationale: (1) tax-core was already planned to be bundled as "offline fallback", making backend-authoritative redundant, (2) eliminates SPOF — app works without network for calculations, (3) removes API round-trip latency (~100-200ms per keystroke), (4) Expo OTA updates can push tax-core JS changes without App Store review. Tax law updates are deployed via Expo OTA to all users within hours. The entire technology stack (Expo SDK 55, Fastify 5, Prisma 7, TanStack Query v5, Zustand 5) is current as of March 2026, with verified npm versions and official documentation backing each choice.
 
 The key risks are execution risks, not architectural unknowns. The existing `src/lib/` codebase has zero tests, documented constant inconsistencies (`isSecondHalf2026` flag, wrong 2026 brackets in `incomeSummaryCalculator.ts`), and no convergence guards in the gross/net binary search. These pre-existing defects must be corrected and test-covered before any migration begins — otherwise, they are transplanted into a two-runtime architecture where they become harder to find and fix. Additionally, the web's monolithic 1,147-line `page.tsx` with 22 `useState` declarations must not be ported to mobile: it must be redesigned as isolated per-tab Zustand slices before any calculator UI is built.
 
@@ -63,12 +63,12 @@ The 40+ calculators are the product — the auth, history, and push notification
 
 ### Architecture Approach
 
-The architecture is a three-layer monorepo where `packages/tax-core` is the single source of truth for all calculation logic, `apps/api` is the authoritative compute engine and persistence layer, and `apps/mobile` is a thin display client. The existing `src/` (Next.js) is frozen in place and deprecated after mobile launches. tRPC over HTTP connects mobile to backend with full TypeScript type safety flowing end-to-end from `tax-core` types to mobile screen props. The existing Expo `src/` directory is kept untouched; all new work lives in `apps/` and `packages/`.
+**REVISED:** The architecture is a three-layer monorepo where `packages/tax-core` is the single source of truth for all calculation logic, `apps/mobile` imports tax-core directly for on-device computation, and `apps/api` handles only auth, history persistence, push notifications, and share tokens. The existing `src/` (Next.js) is frozen in place. tRPC over HTTP connects mobile to backend for auth/history/push with TypeScript type safety. Tax calculations never touch the network. The existing Expo `src/` directory is kept untouched; all new work lives in `apps/` and `packages/`.
 
 **Major components:**
 1. `packages/tax-core` — All 40+ calculator modules migrated from `src/lib/`; zero dependencies; consumed by API and optionally mobile
-2. `apps/api` — Fastify server with tRPC router; owns authentication, history persistence (Postgres/Prisma), push notification dispatch, rate limiting; delegates all calculations to `tax-core`
-3. `apps/mobile` — Expo Router UI with Zustand auth/settings store and TanStack Query server state; calls API via tRPC; no direct tax calculation logic
+2. `apps/api` — Fastify server with tRPC router; owns authentication, history persistence (Postgres/Prisma), push notification dispatch, rate limiting, share tokens. NO calculator endpoints — all computation happens client-side.
+3. `apps/mobile` — Expo Router UI with Zustand state; imports `@taxvn/tax-core` directly for all calculations; calls API via tRPC only for auth, history, push
 4. `packages/config` — Shared `tsconfig.base.json` and ESLint config across all workspaces
 
 **Key patterns:**
@@ -108,10 +108,10 @@ The build order is dictated by hard dependencies: `tax-core` must exist before t
 
 ### Phase 2: Backend API (Auth + Calculator Endpoints)
 
-**Rationale:** The API must be built and testable via HTTP before mobile development begins. Auth (JWT + Google OAuth) is the dependency for history, which is the dependency for push notification deep links. Build and verify the backend independently.
-**Delivers:** Fastify + Prisma + PostgreSQL setup; JWT auth with access/refresh tokens; tRPC router exposing all 40+ calculator procedures; `calculation_history` table schema; share token endpoint; rate limiting
+**Rationale:** The API must be built and testable via HTTP before mobile development begins. Auth (JWT + Google OAuth) is the dependency for history, which is the dependency for push notification deep links. Build and verify the backend independently. **REVISED: NO calculator endpoints — tax-core runs client-side in mobile.**
+**Delivers:** Fastify + Prisma + PostgreSQL setup; JWT auth with access/refresh tokens; tRPC router for auth + history CRUD + push token registry + share tokens; `calculation_history` table schema; rate limiting; health check; structured logging
 **Uses:** Fastify 5, Prisma 7, PostgreSQL 16, tRPC v11, Zod, jsonwebtoken, bcrypt
-**Implements:** `apps/api` component boundary
+**Implements:** `apps/api` component boundary (~10 endpoints total, down from 50+)
 **Avoids:** Pitfall 4 (share link URL limits — server-side tokens built here), Pitfall 8 (storage migration strategy defined here)
 **Research flag:** Standard patterns — well-documented Fastify + tRPC + Prisma setup
 
@@ -148,8 +148,8 @@ The build order is dictated by hard dependencies: `tax-core` must exist before t
 
 ### Phase Ordering Rationale
 
-- Phases 1 and 2 can be parallelized after Phase 1's `tax-core` package is stable (API can start once calculator functions are testable, before full test suite is complete)
-- Phase 3 is blocked on Phase 2's auth endpoints
+- **REVISED:** After Phase 1, Phase 2 and Phase 3 can run IN PARALLEL (client-side calc removes Phase 3's dependency on Phase 2)
+- Phase 3 mobile shell uses mock auth initially, wires to real API when Phase 2 completes
 - Phase 4 is blocked on Phase 3's navigation shell and Phase 1's tested `tax-core`
 - Phase 5 is blocked on Phase 2's history API and Phase 4's calculator screens (history is only valuable once calculators save results)
 - Phase 6 is the final integration phase with the most external service dependencies
@@ -221,4 +221,5 @@ Phases with standard patterns (skip research-phase):
 ---
 
 *Research completed: 2026-03-31*
+*Updated: 2026-04-01 — architecture revised to client-side primary calculation per CEO review*
 *Ready for roadmap: yes*
