@@ -122,24 +122,8 @@ export const INCOME_TAX_RATES: Record<IncomeSourceType, {
   },
 };
 
-/**
- * Biểu thuế lũy tiến 5 bậc (từ 1/7/2026)
- */
-export const PROGRESSIVE_TAX_BRACKETS_2026 = [
-  { min: 0, max: 10_000_000, rate: 0.05 },
-  { min: 10_000_000, max: 25_000_000, rate: 0.10 },
-  { min: 25_000_000, max: 50_000_000, rate: 0.15 },
-  { min: 50_000_000, max: 100_000_000, rate: 0.25 },
-  { min: 100_000_000, max: Infinity, rate: 0.35 },
-];
-
-/**
- * Giảm trừ gia cảnh (từ 1/7/2026)
- */
-export const DEDUCTIONS_2026 = {
-  personal: 18_000_000,      // 18 triệu/tháng
-  dependent: 7_200_000,       // 7.2 triệu/tháng/người phụ thuộc
-};
+// FOUND-04 fix: Import biểu thuế chính từ taxCalculator (nguồn duy nhất)
+import { NEW_TAX_BRACKETS, NEW_DEDUCTIONS } from './taxCalculator';
 
 /**
  * Một nguồn thu nhập
@@ -176,7 +160,7 @@ export interface MultiSourceInput {
 
   // Năm thuế
   taxYear: 2025 | 2026;
-  isSecondHalf2026?: boolean;     // Sau 1/7/2026
+  // FOUND-06: isSecondHalf2026 đã xóa — luật mới áp dụng từ 01/01/2026 cho toàn năm
 }
 
 /**
@@ -244,8 +228,8 @@ function annualizeAmount(amount: number, frequency: 'monthly' | 'yearly' | 'one_
 /**
  * Tính thuế lũy tiến cho thu nhập chịu thuế
  */
-function calculateProgressiveTax(taxableIncome: number, isNewLaw: boolean): number {
-  const brackets = PROGRESSIVE_TAX_BRACKETS_2026;
+function calculateProgressiveTax(taxableIncome: number): number {
+  const brackets = NEW_TAX_BRACKETS;
   let tax = 0;
   let remaining = taxableIncome;
 
@@ -286,7 +270,7 @@ function calculateSourceTax(source: IncomeSource, input: MultiSourceInput): Sour
         : (input.insuranceAmount || 0) / 12;
 
       // Giảm trừ gia cảnh
-      const monthlyDeduction = DEDUCTIONS_2026.personal + (input.dependents * DEDUCTIONS_2026.dependent);
+      const monthlyDeduction = NEW_DEDUCTIONS.personal + (input.dependents * NEW_DEDUCTIONS.dependent);
 
       // Giảm trừ hưu trí tự nguyện và từ thiện
       const otherDeductions = (input.pensionContribution + input.charitableContribution) / 12;
@@ -295,7 +279,7 @@ function calculateSourceTax(source: IncomeSource, input: MultiSourceInput): Sour
       taxableAmount = monthlyTaxable * 12;
 
       // Tính thuế lũy tiến hàng tháng
-      const monthlyTax = calculateProgressiveTax(monthlyTaxable, input.isSecondHalf2026 || false);
+      const monthlyTax = calculateProgressiveTax(monthlyTaxable);
       taxAmount = monthlyTax * 12;
 
       appliedRate = 'progressive';

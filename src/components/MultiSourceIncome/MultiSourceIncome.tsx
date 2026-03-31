@@ -42,7 +42,7 @@ export function MultiSourceIncome({ tabState, onTabStateChange }: MultiSourceInc
       pensionContribution: tabState.pensionContribution,
       charitableContribution: tabState.charitableContribution,
       taxYear: tabState.taxYear,
-      isSecondHalf2026: tabState.isSecondHalf2026,
+      // FOUND-06: isSecondHalf2026 removed — new law applies from 01/01/2026
     });
   }, [tabState]);
 

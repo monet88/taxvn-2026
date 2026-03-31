@@ -143,7 +143,7 @@ export interface ForeignerTaxInput {
 
   // Năm tính thuế
   taxYear: 2025 | 2026;
-  isSecondHalf2026?: boolean;       // Deprecated: Luật mới áp dụng từ 01/01/2026 cho toàn năm
+  // FOUND-06: isSecondHalf2026 đã xóa — luật mới áp dụng từ 01/01/2026 cho toàn năm
 }
 
 export interface ForeignerTaxResult {
@@ -333,7 +333,7 @@ function calculateResidentTax(input: ForeignerTaxInput): ForeignerTaxResult {
     region = 1,
     dependents,
     taxYear,
-    isSecondHalf2026,
+    // FOUND-06: isSecondHalf2026 đã xóa
     nationality,
     daysInVietnam = 0,
   } = input;

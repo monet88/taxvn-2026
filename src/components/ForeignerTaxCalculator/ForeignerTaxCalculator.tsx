@@ -113,7 +113,7 @@ export default function ForeignerTaxCalculator({
       region: sharedState.region || 1,
       dependents: sharedState.dependents || 0,
       taxYear: tabState.taxYear || 2026,
-      isSecondHalf2026: tabState.isSecondHalf2026 ?? true,
+      // FOUND-06: isSecondHalf2026 removed — new law applies from 01/01/2026
     });
   }, [sharedState, tabState]);
 

@@ -237,14 +237,8 @@ export interface IncomeSummaryResult {
   entries: IncomeEntry[];
 }
 
-// Tax brackets for progressive tax (from 2026)
-const TAX_BRACKETS_2026 = [
-  { min: 0, max: 10_000_000, rate: 0.05 },
-  { min: 10_000_000, max: 30_000_000, rate: 0.10 },
-  { min: 30_000_000, max: 60_000_000, rate: 0.15 },
-  { min: 60_000_000, max: 120_000_000, rate: 0.20 },
-  { min: 120_000_000, max: Infinity, rate: 0.25 },
-];
+// 2026-04: Sử dụng biểu thuế chính từ taxCalculator (FOUND-04 fix — xóa biểu thuế trùng)
+import { NEW_TAX_BRACKETS } from './taxCalculator';
 
 // Deductions (Nghị quyết 110/2025/UBTVQH15)
 const DEDUCTIONS = {
@@ -277,12 +271,13 @@ export function getCategoryConfig(category: IncomeCategory): IncomeCategoryConfi
 
 /**
  * Calculate progressive tax on salary income
+ * Sử dụng NEW_TAX_BRACKETS từ taxCalculator (nguồn duy nhất)
  */
 function calculateProgressiveTax(annualTaxableIncome: number): number {
   let tax = 0;
   let remaining = annualTaxableIncome;
 
-  for (const bracket of TAX_BRACKETS_2026) {
+  for (const bracket of NEW_TAX_BRACKETS) {
     const taxableInBracket = Math.min(
       Math.max(0, remaining),
       bracket.max - bracket.min
