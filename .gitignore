@@ -55,3 +55,7 @@ next-env.d.ts
 # Docker
 .docker/
 CLAUDE.md
+.gitnexus
+.ck/
+.claude/
+.ckignore
