@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Monorepo Foundation** - Completed 2026-04-01
 - [x] **Phase 2: Backend API** - Completed 2026-04-01
-- [ ] **Phase 3: Mobile Foundation** - Expo Router shell, auth screens, Zustand stores, design system
+- [x] **Phase 3: Mobile Foundation** - Completed 2026-04-01
 - [ ] **Phase 4: Calculator Screens** - All 42 calculator tools ported to mobile with real-time recalculation
 - [ ] **Phase 5: Calculation History** - Per-account history list, search, filter, restore, auto-save
 - [ ] **Phase 6: Push Notifications** - Local deadline reminders and remote law-change alerts
@@ -104,7 +104,7 @@ Phases 2 and 3 can run in parallel after Phase 1 completes. Phase 4 is blocked o
 |-------|----------------|--------|-----------|
 | 1. Monorepo Foundation | 4/4 | Completed | 2026-04-01 |
 | 2. Backend API | 2/2 | Completed | 2026-04-01 |
-| 3. Mobile Foundation | 0/? | Not started | - |
+| 3. Mobile Foundation | 4/4 | Completed | 2026-04-01 |
 | 4. Calculator Screens | 0/? | Not started | - |
 | 5. Calculation History | 0/? | Not started | - |
 | 6. Push Notifications | 0/? | Not started | - |
