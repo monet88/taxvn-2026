@@ -43,7 +43,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Posting a share snapshot returns an 8-character token; fetching that token returns the original snapshot JSON
   4. Five failed login attempts within 15 minutes from the same IP are blocked with appropriate error response
   5. The `/health` endpoint returns 200 and structured logs appear for every auth event and API error
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [x] 02-01-PLAN.md — Supabase project setup & database schema
+- [x] 02-02-PLAN.md — Edge Functions & integration tests
+- [ ] 02-03-PLAN.md — Gap closure: Google OAuth config, rate limiting, tsconfig
 
 ### Phase 3: Mobile Foundation
 **Goal**: A user can open the app, navigate all four tabs, sign up or log in (email + Google + biometric), and the app stays signed in across restarts — the shell every calculator screen will live inside is complete
@@ -103,7 +107,7 @@ Phases 2 and 3 can run in parallel after Phase 1 completes. Phase 4 is blocked o
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Monorepo Foundation | 4/4 | Completed | 2026-04-01 |
-| 2. Backend API | 1/2 | In Progress|  |
+| 2. Backend API | 2/3 | In Progress (gap closure) |  |
 | 3. Mobile Foundation | 4/4 | Completed | 2026-04-01 |
 | 4. Calculator Screens | 0/? | Not started | - |
 | 5. Calculation History | 0/? | Not started | - |
