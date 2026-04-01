@@ -5,5 +5,7 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     setupFiles: ['./src/__tests__/setup.ts'],
+    testTimeout: 30_000, // Integration tests hit real Supabase
+    hookTimeout: 30_000,
   },
 });
