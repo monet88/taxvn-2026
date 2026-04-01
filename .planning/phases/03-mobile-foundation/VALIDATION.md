@@ -46,19 +46,40 @@ Phase 03 successfully established the mobile shell, identity layer, and design s
 
 ## 3. Nyquist Tests
 
-Generated the following manual validation script:
-```bash
-# Verify Deep Linking
-npx uri-scheme open taxvn://test --android
-npx uri-scheme open taxvn://test --ios
+### Automated Test Suite
 
-# Verify Sentry (Manual Trigger in code required)
-# Sentry.captureMessage("Test Error");
-```
+| # | File | Requirements | Command | Status |
+|---|------|-------------|---------|--------|
+| 1 | `__tests__/secureStore.test.ts` | AUTH-00, AUTH-05 | `pnpm --filter @taxvn/mobile test -- secureStore --forceExit` | ✅ 3/3 green |
+| 2 | `__tests__/stores.test.ts` | AUTH-00, AUTH-05 | `pnpm --filter @taxvn/mobile test -- stores --forceExit` | ✅ 4/4 green |
+| 3 | `__tests__/supabaseSync.test.ts` | AUTH-06 | `pnpm --filter @taxvn/mobile test -- supabaseSync --forceExit` | ✅ 2/2 green |
+| 4 | `__tests__/biometrics.test.ts` | AUTH-04 | `pnpm --filter @taxvn/mobile test -- biometrics --forceExit` | ✅ 4/4 green |
+| 5 | `__tests__/navigation.test.tsx` | UX-01 | `pnpm --filter @taxvn/mobile test -- navigation --forceExit` | ✅ 2/2 green |
+
+**Run all:** `pnpm --filter @taxvn/mobile test --no-coverage --forceExit`
+
+### Manual-Only Checks
+
+| Requirement | Reason | Manual Step |
+|-------------|--------|-------------|
+| UX-07 (deep link) | Requires physical device or simulator | `npx uri-scheme open taxvn://test --android` |
+| OBS-03/OBS-04 (Sentry) | Requires real DSN + network | Trigger `Sentry.captureMessage("Test")` in app |
+| AUTH-01/02/03 (Auth UI) | Requires Supabase + OAuth provider | Manual E2E login flow |
+
+---
+
+## Validation Audit 2026-04-01
+| Metric | Count |
+|--------|-------|
+| Gaps found | 5 |
+| Resolved (automated) | 5 |
+| Escalated to manual-only | 3 |
+| Total tests added | 15 |
 
 ---
 
 ## Sign-off
-**Status:** VALIDATED
+**Status:** NYQUIST-COMPLIANT
 **Date:** 2026-04-01
 **Validator:** Antigravity (AI Agent)
+**All automated gaps filled:** secureStore ✅, stores ✅, supabaseSync ✅, biometrics ✅, navigation ✅

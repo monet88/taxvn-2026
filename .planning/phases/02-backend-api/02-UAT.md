@@ -1,50 +1,58 @@
-# Phase 02: Backend API - User Acceptance Testing (UAT)
+---
+status: partial
+phase: 02-backend-api
+source:
+  - 02-01-SUMMARY.md
+  - 02-02-SUMMARY.md
+  - 02-03-SUMMARY.md
+started: 2026-04-01T16:00:00+07:00
+updated: 2026-04-01T16:16:00+07:00
+---
 
-## Status Summary
-- **Phase:** 02 (Backend API)
-- **Status:** In Progress
-- **Last Updated:** 2026-04-01
-- **Overall Result:** [PASS]
+## Current Test
 
-## Test Cases
+completed: this UAT pass is complete
 
-| ID | Title | Description | Result | Notes |
-|---|---|---|---|---|
-| API-01 | Supabase Initialization | Verify `supabase init` and file structure | [PASS] | |
-| API-02 | DB Migration | Verify tables exist: `calculation_history`, `share_snapshots`, `push_tokens`, `app_config` | [PASS] | |
-| API-03 | RLS Policies | Verify RLS enabled and policies created | [PASS] | |
-| API-04 | App Config Seed | Verify `version_gate` seed data | [PASS] | |
-| API-05 | Shared Package | Verify `@taxvn/supabase` package and types | [PASS] | |
-| API-06 | Health Endpoint | Verify `v1/health` deep check | [PASS] | |
-| API-07 | Version Check | Verify `v1/version-check` logic (supported/unsupported) | [PASS] | |
-| API-08 | Share Creation | Verify `v1/share` token generation (NanoID 8-char) | [PASS] | |
-| API-09 | Integration Tests | Run vitest suite in `apps/api` | [PASS] | |
+## Tests
 
-## Detailed Logs
+### 1. Local integration suite
+expected: With local Supabase running, the Phase 02 API integration suite passes cleanly and exercises history CRUD, share snapshots, push tokens, version-check, and health.
+result: passed
 
-### API-01: Supabase Initialization
-- [ ] Check `supabase/config.toml`
-- [ ] Check root `package.json` scripts
-- [ ] Check `supabase/.env.example`
+### 2. Email/password auth
+expected: A user can register or sign in with email/password and receive a working Supabase session with automatic token refresh behavior.
+result: passed
 
-### API-02: DB Migration
-- [ ] Verify 4 custom tables exist in `public` schema
+### 3. Google OAuth sign-in
+expected: A user can start Google OAuth sign-in and complete authentication successfully when Google credentials are configured.
+result: deferred
 
-### API-03: RLS Policies
-- [ ] Verify `ENABLE ROW LEVEL SECURITY` on all 4 tables
+### 4. History persistence and isolation
+expected: A signed-in user can save, list, and delete calculation history, and another user cannot read or mutate that data.
+result: passed
 
-### API-04: App Config Seed
-- [ ] Verify `key='version_gate'` exists in `app_config`
+### 5. Share snapshot flow
+expected: Posting a share snapshot returns an 8-character token, and loading that token returns the original snapshot payload.
+result: passed
 
-### API-06: Health Endpoint
-- [ ] `curl -X GET http://localhost:54321/functions/v1/health`
+### 6. Health endpoint and logs
+expected: The health endpoint returns HTTP 200 with the expected JSON shape, and backend errors/functions emit structured logs.
+result: passed
 
-### API-07: Version Check
-- [ ] Test with `clientVersion: "0.0.1"` (expected: not supported)
-- [ ] Test with `clientVersion: "0.1.0"` (expected: supported)
+### 7. Auth rate limiting
+expected: Repeated failed sign-in attempts are blocked after the configured threshold instead of allowing unlimited retries.
+result: deferred
 
-### API-08: Share Creation
-- [ ] `curl -X POST http://localhost:54321/functions/v1/share ...`
+## Summary
 
-### API-09: Integration Tests
-- [ ] `cd apps/api && pnpm test`
+total: 7
+passed: 5
+issues: 0
+pending: 0
+skipped: 2
+blocked: 0
+
+## Gaps
+
+- Google OAuth sign-in deferred to later manual validation
+- Auth rate limiting deferred to later runtime validation
