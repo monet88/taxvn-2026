@@ -9,16 +9,16 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 
 ### Foundation (Monorepo + Shared Logic)
 
-- [ ] **FOUND-01**: Thiết lập monorepo Turborepo + pnpm (packages/tax-core, apps/api, apps/mobile)
-- [ ] **FOUND-02**: Tách src/lib/*.ts thành packages — phân loại 3 tầng:
+- [x] **FOUND-01**: Thiết lập monorepo Turborepo + pnpm (packages/tax-core, apps/api, apps/mobile)
+- [x] **FOUND-02**: Tách src/lib/*.ts thành packages — phân loại 3 tầng:
   - `packages/tax-core`: Pure deterministic calculators (~30 modules: taxCalculator, grossNetCalculator, esopCalculator, securitiesTaxCalculator, realEstateTransferTaxCalculator, bonusCalculator, foreignerTaxCalculator, overtimeCalculator, annualSettlementCalculator, pensionCalculator, householdBusinessTaxCalculator, rentalIncomeTaxCalculator, contentCreatorTaxCalculator, cryptoTaxCalculator, coupleTaxOptimizer, multiSourceIncomeCalculator, freelancerCalculator, salaryComparisonCalculator, employerCostCalculator, withholdingTaxCalculator, vatCalculator, severanceCalculator, latePaymentCalculator, inheritanceGiftTaxCalculator, businessFormComparisonCalculator, mortgageCalculator, monthlyPlannerCalculator, taxPlanningSimulator, incomeSummaryCalculator, yearlyTaxCalculator)
   - `packages/tax-data`: Static reference data (taxLawHistory, taxTreatyData, taxExemptionChecker, taxDeadlineManager, pensionConstants)
   - Mobile-only: Rendering/content features (salarySlip PDF, taxDocumentGenerator, taxOptimizationTips — stay in apps/mobile)
-- [ ] **FOUND-03**: Viết golden-output test suite cho TẤT CẢ 40+ calculators (Vitest) — mỗi calculator ít nhất 3 cases (happy path + boundary + edge), ~120+ test cases total
-- [ ] **FOUND-04**: Sửa bug bracket inconsistency giữa incomeSummaryCalculator và taxCalculator
-- [ ] **FOUND-05**: Relocate `MAX_MONTHLY_INCOME` từ `@/utils/inputSanitizers` vào tax-core (grossNetCalculator.ts import non-pure dependency)
-- [ ] **FOUND-06**: Normalize `isSecondHalf2026` flag — xóa flag, hardcode new-law deductions cho toàn năm 2026 (7 files: taxDocumentGenerator, multiSourceIncomeCalculator, foreignerTaxCalculator, snapshotTypes + 3 components)
-- [ ] **FOUND-07**: Fix `inheritanceGiftTaxCalculator.ts` import `formatNumber` qua `@/lib/taxCalculator` path alias — cần relative import hoặc inline utility trong tax-core
+- [x] **FOUND-03**: Viết golden-output test suite cho TẤT CẢ 40+ calculators (Vitest) — mỗi calculator ít nhất 3 cases (happy path + boundary + edge), ~120+ test cases total
+- [x] **FOUND-04**: Sửa bug bracket inconsistency giữa incomeSummaryCalculator và taxCalculator
+- [x] **FOUND-05**: Relocate `MAX_MONTHLY_INCOME` từ `@/utils/inputSanitizers` vào tax-core (grossNetCalculator.ts import non-pure dependency)
+- [x] **FOUND-06**: Normalize `isSecondHalf2026` flag — xóa flag, hardcode new-law deductions cho toàn năm 2026 (7 files: taxDocumentGenerator, multiSourceIncomeCalculator, foreignerTaxCalculator, snapshotTypes + 3 components)
+- [x] **FOUND-07**: Fix `inheritanceGiftTaxCalculator.ts` import `formatNumber` qua `@/lib/taxCalculator` path alias — cần relative import hoặc inline utility trong tax-core
 
 ### Backend API
 
@@ -43,16 +43,16 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 ### Mobile Auth
 
 - [ ] **AUTH-00**: Login-optional architecture — calculators work without auth. Login prompted only when user taps Save History or Share. Tài khoản tab shows login CTA if not authenticated.
-- [ ] **AUTH-01**: User đăng ký bằng email/password - Done 2026-04-01
-- [ ] **AUTH-02**: User đăng nhập bằng email/password - Done 2026-04-01
-- [ ] **AUTH-03**: User đăng nhập bằng Google OAuth - Pending (UI drafted)
-- [ ] **AUTH-04**: Biometric auth (Face ID / Touch ID) sau khi đăng nhập lần đầu - Done 2026-04-01
-- [ ] **AUTH-05**: User session persist across app restart - Done 2026-04-01
-- [ ] **AUTH-06**: User đăng xuất từ bất kỳ màn hình nào - Done 2026-04-01
+- [x] **AUTH-01**: User đăng ký bằng email/password - Done 2026-04-01
+- [x] **AUTH-02**: User đăng nhập bằng email/password - Done 2026-04-01
+- [x] **AUTH-03**: User đăng nhập bằng Google OAuth - Pending (UI drafted)
+- [x] **AUTH-04**: Biometric auth (Face ID / Touch ID) sau khi đăng nhập lần đầu - Done 2026-04-01
+- [x] **AUTH-05**: User session persist across app restart - Done 2026-04-01
+- [x] **AUTH-06**: User đăng xuất từ bất kỳ màn hình nào - Done 2026-04-01
 
 ### Mobile Core UX
 
-- [ ] **UX-01**: Navigation shell — 4 bottom tabs - Done 2026-04-01
+- [x] **UX-01**: Navigation shell — 4 bottom tabs - Done 2026-04-01
 - [x] **UX-09**: Design tokens (NativeWind/Tailwind) - Done 2026-04-01
   - Colors: primary `#1a1a1a` (text), accent `#059669` (emerald-600, savings/positive), error `#dc2626` (red-600), background `#ffffff`, surface `#f9fafb` (gray-50), border `#e5e7eb` (gray-200)
   - Type scale: xs 12px, sm 14px, base 16px, lg 18px, xl 24px, 2xl 32px (income input)
@@ -65,16 +65,16 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 - [ ] **UX-03**: VND input formatting với numeric keyboard phù hợp
 - [ ] **UX-04**: Input auto-save / draft persistence khi switch app hoặc bị gián đoạn
 - [ ] **UX-05**: Native Share Sheet cho kết quả tính thuế (text + deep link)
-- [ ] **UX-07**: Deep link handler - Done 2026-04-01
-- [ ] **UX-08**: Tax-core version check on open - Done 2026-04-01
+- [x] **UX-07**: Deep link handler - Done 2026-04-01
+- [x] **UX-08**: Tax-core version check on open - Done 2026-04-01
 - [ ] **UX-06**: Interaction states for all screens:
   - Calculator: skeleton shimmer while loading, placeholder "25,000,000 ₫" in empty input, red border + "Số không hợp lệ" on error, green savings row pulse on success
   - History: skeleton rows loading, illustration + "Chưa có lịch sử" empty state with CTA, retry button on error
   - Auth: button spinner on loading, inline error messages, toast on success
   - Share: "Đang tạo link..." loading, retry on error, native share sheet on success
   - Version: silent check on open, banner "Cập nhật bảng thuế mới" if outdated
-- [ ] **UX-07**: Deep link handler — nhận share token URL, load calculator state từ API
-- [ ] **UX-08**: Tax-core version check on app open — show banner "Cập nhật bảng thuế mới" nếu outdated, distinguish OTA (JS) vs App Store (native) updates
+- [x] **UX-07**: Deep link handler — nhận share token URL, load calculator state từ API
+- [x] **UX-08**: Tax-core version check on app open — show banner "Cập nhật bảng thuế mới" nếu outdated, distinguish OTA (JS) vs App Store (native) updates
 - [ ] **UX-11**: Design decisions resolved:
   - VND format: dấu chấm ngăn cách hàng nghìn (25.000.000 ₫) per vi-VN locale
   - Calculator layout: scrollable single page (inputs top → results below), results always visible without button
@@ -148,14 +148,14 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 
 - [ ] **SEC-01**: Login rate limiting (max 5 attempts/15 min per IP, exponential backoff)
 - [x] **SEC-02**: PDPD compliance — privacy policy, data handling disclosure, consent flow cho salary/income PII (Vietnamese Personal Data Protection Decree)
-- [ ] **SEC-03**: App Store preparation — Done 2026-04-01
+- [x] **SEC-03**: App Store preparation — Done 2026-04-01
 
 ### Observability
 
 - [x] **OBS-01**: Structured logging cho API (request/response, auth events, errors)
 - [x] **OBS-02**: Health check endpoint (`/health`) for monitoring
-- [ ] **OBS-03**: Client-side crash reporting (Sentry) — Done 2026-04-01
-- [ ] **OBS-04**: Calculator usage analytics — Done 2026-04-01
+- [x] **OBS-03**: Client-side crash reporting (Sentry) — Done 2026-04-01
+- [x] **OBS-04**: Calculator usage analytics — Done 2026-04-01
 
 ## v2 Requirements
 
@@ -196,13 +196,13 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 3.1 | Pending |
-| FOUND-02 | Phase 3.1 | Pending |
-| FOUND-03 | Phase 3.1 | Pending |
-| FOUND-04 | Phase 3.1 | Pending |
-| FOUND-05 | Phase 3.1 | Pending |
-| FOUND-06 | Phase 3.1 | Pending |
-| FOUND-07 | Phase 3.1 | Pending |
+| FOUND-01 | Phase 3.1 | Complete |
+| FOUND-02 | Phase 3.1 | Complete |
+| FOUND-03 | Phase 3.1 | Complete |
+| FOUND-04 | Phase 3.1 | Complete |
+| FOUND-05 | Phase 3.1 | Complete |
+| FOUND-06 | Phase 3.1 | Complete |
+| FOUND-07 | Phase 3.1 | Complete |
 | API-01 | Phase 2 | Complete |
 | API-02 | Phase 2 | Complete |
 | API-03 | Phase 2 | Complete |
@@ -215,20 +215,20 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | API-10 | Phase 2 | Complete |
 | API-11 | Phase 2 | Complete |
 | API-12 | Phase 2 | Complete |
-| AUTH-01 | Phase 3.1 | Pending |
-| AUTH-02 | Phase 3.1 | Pending |
-| AUTH-03 | Phase 3.1 | Pending |
-| AUTH-04 | Phase 3.1 | Pending |
-| AUTH-05 | Phase 3.1 | Pending |
-| AUTH-06 | Phase 3.1 | Pending |
-| UX-01 | Phase 3.1 | Pending |
+| AUTH-01 | Phase 3.1 | Complete |
+| AUTH-02 | Phase 3.1 | Complete |
+| AUTH-03 | Phase 3.1 | Complete |
+| AUTH-04 | Phase 3.1 | Complete |
+| AUTH-05 | Phase 3.1 | Complete |
+| AUTH-06 | Phase 3.1 | Complete |
+| UX-01 | Phase 3.1 | Complete |
 | UX-02 | Phase 4 | Pending |
 | UX-03 | Phase 4 | Pending |
 | UX-04 | Phase 4 | Pending |
 | UX-05 | Phase 4 | Pending |
 | UX-06 | Phase 4 | Pending |
-| UX-07 | Phase 3.1 | Pending |
-| UX-08 | Phase 3.1 | Pending |
+| UX-07 | Phase 3.1 | Complete |
+| UX-08 | Phase 3.1 | Complete |
 | CALC-01 | Phase 4 | Pending |
 | CALC-02 | Phase 4 | Pending |
 | CALC-03 | Phase 4 | Pending |
@@ -284,11 +284,11 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | PUSH-04 | Phase 6 | Pending |
 | SEC-01 | Phase 3.2 | Pending |
 | SEC-02 | Phase 2 | Complete |
-| SEC-03 | Phase 3.1 | Pending |
+| SEC-03 | Phase 3.1 | Complete |
 | OBS-01 | Phase 2 | Complete |
 | OBS-02 | Phase 2 | Complete |
-| OBS-03 | Phase 3.1 | Pending |
-| OBS-04 | Phase 3.1 | Pending |
+| OBS-03 | Phase 3.1 | Complete |
+| OBS-04 | Phase 3.1 | Complete |
 
 **Coverage:**
 - v1 requirements: 86 total
