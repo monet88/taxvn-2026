@@ -147,11 +147,13 @@ describe('calculation history', () => {
   it('should support cursor-based pagination', async () => {
     if (!supabaseAvailable) return expect(true).toBe(true);
 
-    // Insert 5 records
+    // Insert 5 records with distinct timestamps so the cursor has a stable boundary.
+    const baseTime = Date.now();
     const records = Array.from({ length: 5 }, (_, i) => ({
       ...sampleHistory,
       user_id: userIdA,
       tool_name: `tool-${i}`,
+      created_at: new Date(baseTime - i * 1000).toISOString(),
     }));
     await clientA.from('calculation_history').insert(records);
 
