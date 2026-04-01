@@ -30,7 +30,7 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
   - `share_snapshots` (id, token UNIQUE 8-char, snapshot_json, snapshot_version INT, tax_core_version STRING, created_by FK?, expires_at, created_at)
   - `push_tokens` (id, user_id FK, token, platform enum(ios/android), created_at, updated_at)
 - [x] **API-03**: JWT authentication — access token 15 min, refresh token 7 days w/ rotation, expo-secure-store, blacklist on logout, bcrypt password hashing
-- [x] **API-04**: Google OAuth integration
+- [ ] **API-04**: Google OAuth integration
 - [x] **API-05**: API endpoint lưu calculation history (user + tool + input + result + timestamp)
 - [x] **API-06**: API endpoint truy vấn history (list, filter by tool, filter by date range, search)
 - [x] **API-07**: API endpoint xóa history (single + bulk delete)
@@ -43,16 +43,16 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 ### Mobile Auth
 
 - [ ] **AUTH-00**: Login-optional architecture — calculators work without auth. Login prompted only when user taps Save History or Share. Tài khoản tab shows login CTA if not authenticated.
-- [x] **AUTH-01**: User đăng ký bằng email/password - Done 2026-04-01
-- [x] **AUTH-02**: User đăng nhập bằng email/password - Done 2026-04-01
+- [ ] **AUTH-01**: User đăng ký bằng email/password - Done 2026-04-01
+- [ ] **AUTH-02**: User đăng nhập bằng email/password - Done 2026-04-01
 - [ ] **AUTH-03**: User đăng nhập bằng Google OAuth - Pending (UI drafted)
-- [x] **AUTH-04**: Biometric auth (Face ID / Touch ID) sau khi đăng nhập lần đầu - Done 2026-04-01
-- [x] **AUTH-05**: User session persist across app restart - Done 2026-04-01
-- [x] **AUTH-06**: User đăng xuất từ bất kỳ màn hình nào - Done 2026-04-01
+- [ ] **AUTH-04**: Biometric auth (Face ID / Touch ID) sau khi đăng nhập lần đầu - Done 2026-04-01
+- [ ] **AUTH-05**: User session persist across app restart - Done 2026-04-01
+- [ ] **AUTH-06**: User đăng xuất từ bất kỳ màn hình nào - Done 2026-04-01
 
 ### Mobile Core UX
 
-- [x] **UX-01**: Navigation shell — 4 bottom tabs - Done 2026-04-01
+- [ ] **UX-01**: Navigation shell — 4 bottom tabs - Done 2026-04-01
 - [x] **UX-09**: Design tokens (NativeWind/Tailwind) - Done 2026-04-01
   - Colors: primary `#1a1a1a` (text), accent `#059669` (emerald-600, savings/positive), error `#dc2626` (red-600), background `#ffffff`, surface `#f9fafb` (gray-50), border `#e5e7eb` (gray-200)
   - Type scale: xs 12px, sm 14px, base 16px, lg 18px, xl 24px, 2xl 32px (income input)
@@ -65,8 +65,8 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 - [ ] **UX-03**: VND input formatting với numeric keyboard phù hợp
 - [ ] **UX-04**: Input auto-save / draft persistence khi switch app hoặc bị gián đoạn
 - [ ] **UX-05**: Native Share Sheet cho kết quả tính thuế (text + deep link)
-- [x] **UX-07**: Deep link handler - Done 2026-04-01
-- [x] **UX-08**: Tax-core version check on open - Done 2026-04-01
+- [ ] **UX-07**: Deep link handler - Done 2026-04-01
+- [ ] **UX-08**: Tax-core version check on open - Done 2026-04-01
 - [ ] **UX-06**: Interaction states for all screens:
   - Calculator: skeleton shimmer while loading, placeholder "25,000,000 ₫" in empty input, red border + "Số không hợp lệ" on error, green savings row pulse on success
   - History: skeleton rows loading, illustration + "Chưa có lịch sử" empty state with CTA, retry button on error
@@ -146,16 +146,16 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 
 ### Security & Compliance
 
-- [x] **SEC-01**: Login rate limiting (max 5 attempts/15 min per IP, exponential backoff)
+- [ ] **SEC-01**: Login rate limiting (max 5 attempts/15 min per IP, exponential backoff)
 - [x] **SEC-02**: PDPD compliance — privacy policy, data handling disclosure, consent flow cho salary/income PII (Vietnamese Personal Data Protection Decree)
-- [x] **SEC-03**: App Store preparation — Done 2026-04-01
+- [ ] **SEC-03**: App Store preparation — Done 2026-04-01
 
 ### Observability
 
 - [x] **OBS-01**: Structured logging cho API (request/response, auth events, errors)
 - [x] **OBS-02**: Health check endpoint (`/health`) for monitoring
-- [x] **OBS-03**: Client-side crash reporting (Sentry) — Done 2026-04-01
-- [x] **OBS-04**: Calculator usage analytics — Done 2026-04-01
+- [ ] **OBS-03**: Client-side crash reporting (Sentry) — Done 2026-04-01
+- [ ] **OBS-04**: Calculator usage analytics — Done 2026-04-01
 
 ## v2 Requirements
 
@@ -196,17 +196,17 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
-| FOUND-04 | Phase 1 | Pending |
-| FOUND-05 | Phase 1 | Pending |
-| FOUND-06 | Phase 1 | Pending |
-| FOUND-07 | Phase 1 | Pending |
+| FOUND-01 | Phase 3.1 | Pending |
+| FOUND-02 | Phase 3.1 | Pending |
+| FOUND-03 | Phase 3.1 | Pending |
+| FOUND-04 | Phase 3.1 | Pending |
+| FOUND-05 | Phase 3.1 | Pending |
+| FOUND-06 | Phase 3.1 | Pending |
+| FOUND-07 | Phase 3.1 | Pending |
 | API-01 | Phase 2 | Complete |
 | API-02 | Phase 2 | Complete |
 | API-03 | Phase 2 | Complete |
-| API-04 | Phase 2 | Complete |
+| API-04 | Phase 3.2 | Pending |
 | API-05 | Phase 2 | Complete |
 | API-06 | Phase 2 | Complete |
 | API-07 | Phase 2 | Complete |
@@ -215,20 +215,20 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | API-10 | Phase 2 | Complete |
 | API-11 | Phase 2 | Complete |
 | API-12 | Phase 2 | Complete |
-| AUTH-01 | Phase 3 | Done |
-| AUTH-02 | Phase 3 | Done |
-| AUTH-03 | Phase 3 | Pending |
-| AUTH-04 | Phase 3 | Done |
-| AUTH-05 | Phase 3 | Done |
-| AUTH-06 | Phase 3 | Done |
-| UX-01 | Phase 3 | Done |
+| AUTH-01 | Phase 3.1 | Pending |
+| AUTH-02 | Phase 3.1 | Pending |
+| AUTH-03 | Phase 3.1 | Pending |
+| AUTH-04 | Phase 3.1 | Pending |
+| AUTH-05 | Phase 3.1 | Pending |
+| AUTH-06 | Phase 3.1 | Pending |
+| UX-01 | Phase 3.1 | Pending |
 | UX-02 | Phase 4 | Pending |
 | UX-03 | Phase 4 | Pending |
 | UX-04 | Phase 4 | Pending |
 | UX-05 | Phase 4 | Pending |
 | UX-06 | Phase 4 | Pending |
-| UX-07 | Phase 3 | Done |
-| UX-08 | Phase 3 | Done |
+| UX-07 | Phase 3.1 | Pending |
+| UX-08 | Phase 3.1 | Pending |
 | CALC-01 | Phase 4 | Pending |
 | CALC-02 | Phase 4 | Pending |
 | CALC-03 | Phase 4 | Pending |
@@ -282,13 +282,13 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | PUSH-02 | Phase 6 | Pending |
 | PUSH-03 | Phase 6 | Pending |
 | PUSH-04 | Phase 6 | Pending |
-| SEC-01 | Phase 2 | Complete |
+| SEC-01 | Phase 3.2 | Pending |
 | SEC-02 | Phase 2 | Complete |
-| SEC-03 | Phase 3 | Done |
+| SEC-03 | Phase 3.1 | Pending |
 | OBS-01 | Phase 2 | Complete |
 | OBS-02 | Phase 2 | Complete |
-| OBS-03 | Phase 3 | Done |
-| OBS-04 | Phase 3 | Done |
+| OBS-03 | Phase 3.1 | Pending |
+| OBS-04 | Phase 3.1 | Pending |
 
 **Coverage:**
 - v1 requirements: 86 total

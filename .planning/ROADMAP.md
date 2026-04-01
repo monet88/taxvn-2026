@@ -15,6 +15,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Monorepo Foundation** - Completed 2026-04-01
 - [x] **Phase 2: Backend API** - Completed 2026-04-01
 - [x] **Phase 3: Mobile Foundation** - Completed 2026-04-01
+- [ ] **Phase 3.1: Audit & Verification Recovery** - INSERTED: Generate missing VERIFICATION.md files and add tracking metadata
+- [ ] **Phase 3.2: Backend Integration & Rate Limiting** - INSERTED: Configure Google OAuth and stricter rate limiting
 - [ ] **Phase 4: Calculator Screens** - All 42 calculator tools ported to mobile with real-time recalculation
 - [ ] **Phase 5: Calculation History** - Per-account history list, search, filter, restore, auto-save
 - [ ] **Phase 6: Push Notifications** - Local deadline reminders and remote law-change alerts
@@ -61,6 +63,18 @@ Plans:
   5. Sentry receives crash reports tagged with the tax-core version; calculator usage events fire for analytics
 **Plans**: TBD
 **UI hint**: yes
+
+### Phase 3.1: Audit & Verification Recovery
+**Goal**: Address milestone verification gaps by generating missing VERIFICATION.md files, validating Nyquist compliance for Phase 3, and ensuring all summary frontmatters have complete tracking.
+**Depends on**: Phase 1, Phase 3
+**Requirements**: FOUND-01, FOUND-02, FOUND-03, FOUND-04, FOUND-05, FOUND-06, FOUND-07, AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, AUTH-06, UX-01, UX-07, UX-08, SEC-03, OBS-03, OBS-04
+**Gap Closure**: Closes missing verification gaps from v1.0 milestone audit.
+
+### Phase 3.2: Backend Integration & Rate Limiting
+**Goal**: Add the missing Google OAuth configuration to `config.toml` that broke mobile integration and enforce the 5/15min condition on auth sign in rate limits.
+**Depends on**: Phase 2, Phase 3
+**Requirements**: API-04, SEC-01
+**Gap Closure**: Closes API-04 and SEC-01 gaps from v1.0 milestone audit.
 
 ### Phase 4: Calculator Screens
 **Goal**: All 42 calculator tools are available on mobile with real-time recalculation, correct Vietnamese number formatting, and results that match the web app exactly — the core product works
@@ -109,6 +123,8 @@ Phases 2 and 3 can run in parallel after Phase 1 completes. Phase 4 is blocked o
 | 1. Monorepo Foundation | 4/4 | Completed | 2026-04-01 |
 | 2. Backend API | 3/3 | Completed | 2026-04-01 |
 | 3. Mobile Foundation | 4/4 | Completed | 2026-04-01 |
+| 3.1 Audit & Verification Recovery | 0/? | Not started | - |
+| 3.2 Backend Integration & Rate Limiting | 0/? | Not started | - |
 | 4. Calculator Screens | 0/? | Not started | - |
 | 5. Calculation History | 0/? | Not started | - |
 | 6. Push Notifications | 0/? | Not started | - |
