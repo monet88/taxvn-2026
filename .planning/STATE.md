@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-04-01T07:11:22.003Z"
+status: verifying
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-04-01T07:23:20.757Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 6
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 
 Phase: 02 (backend-api) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-01
 
 Progress: [███░░░░░░░] 33%
@@ -53,6 +53,7 @@ Progress: [███░░░░░░░] 33%
 
 *Updated after each plan completion*
 | Phase 02 P01 | 3min | 3 tasks | 11 files |
+| Phase 02 P02 | 5min | 5 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,8 @@ Recent decisions affecting current work:
 - Package split (2026-04-01): Three-tier classification — packages/tax-core (pure calculators), packages/tax-data (static reference), apps/mobile (rendering/PDF features stay mobile-only).
 - [Phase 02]: Database types hand-written as placeholder; regenerate with supabase gen types after supabase start
 - [Phase 02]: Supabase client reads both SUPABASE_* and EXPO_PUBLIC_SUPABASE_* env vars for server/mobile compatibility
+- [Phase 02]: Edge Functions verified from Wave 1 -- share (NanoID 8-char), version-check (semver gate), health (deep DB check)
+- [Phase 02]: Integration tests use Supabase Auth admin API for ephemeral test users with graceful skip when Supabase not running
 
 ### Pending Todos
 
@@ -80,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T07:11:21.998Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-04-01T07:23:20.754Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

@@ -31,14 +31,14 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
   - `push_tokens` (id, user_id FK, token, platform enum(ios/android), created_at, updated_at)
 - [x] **API-03**: JWT authentication — access token 15 min, refresh token 7 days w/ rotation, expo-secure-store, blacklist on logout, bcrypt password hashing
 - [x] **API-04**: Google OAuth integration
-- [ ] **API-05**: API endpoint lưu calculation history (user + tool + input + result + timestamp)
-- [ ] **API-06**: API endpoint truy vấn history (list, filter by tool, filter by date range, search)
-- [ ] **API-07**: API endpoint xóa history (single + bulk delete)
-- [ ] **API-08**: Push notification token registry (lưu FCM/APNs token per user per device)
-- [ ] **API-09**: Remote push notification trigger cho law-change alerts
-- [ ] **API-10**: Share snapshot endpoint — POST snapshot → return 8-char token, GET token → return snapshot
-- [ ] **API-11**: Tax-core version gate — minimum version + effective date endpoint. If outdated past effective date → block calculator. Remote feature flags to disable specific calculators on bug discovery
-- [ ] **API-12**: Error contract — define tRPC error codes (AUTH_EXPIRED, RATE_LIMITED, HISTORY_NOT_FOUND, SHARE_NOT_FOUND, SERVER_ERROR) with mobile handling spec
+- [x] **API-05**: API endpoint lưu calculation history (user + tool + input + result + timestamp)
+- [x] **API-06**: API endpoint truy vấn history (list, filter by tool, filter by date range, search)
+- [x] **API-07**: API endpoint xóa history (single + bulk delete)
+- [x] **API-08**: Push notification token registry (lưu FCM/APNs token per user per device)
+- [x] **API-09**: Remote push notification trigger cho law-change alerts
+- [x] **API-10**: Share snapshot endpoint — POST snapshot → return 8-char token, GET token → return snapshot
+- [x] **API-11**: Tax-core version gate — minimum version + effective date endpoint. If outdated past effective date → block calculator. Remote feature flags to disable specific calculators on bug discovery
+- [x] **API-12**: Error contract — define tRPC error codes (AUTH_EXPIRED, RATE_LIMITED, HISTORY_NOT_FOUND, SHARE_NOT_FOUND, SERVER_ERROR) with mobile handling spec
 
 ### Mobile Auth
 
@@ -207,14 +207,14 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | API-02 | Phase 2 | Complete |
 | API-03 | Phase 2 | Complete |
 | API-04 | Phase 2 | Complete |
-| API-05 | Phase 2 | Pending |
-| API-06 | Phase 2 | Pending |
-| API-07 | Phase 2 | Pending |
-| API-08 | Phase 2 | Pending |
-| API-09 | Phase 2 | Pending |
-| API-10 | Phase 2 | Pending |
-| API-11 | Phase 2 | Pending |
-| API-12 | Phase 2 | Pending |
+| API-05 | Phase 2 | Complete |
+| API-06 | Phase 2 | Complete |
+| API-07 | Phase 2 | Complete |
+| API-08 | Phase 2 | Complete |
+| API-09 | Phase 2 | Complete |
+| API-10 | Phase 2 | Complete |
+| API-11 | Phase 2 | Complete |
+| API-12 | Phase 2 | Complete |
 | AUTH-01 | Phase 3 | Done |
 | AUTH-02 | Phase 3 | Done |
 | AUTH-03 | Phase 3 | Pending |
