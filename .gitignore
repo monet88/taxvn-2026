@@ -60,3 +60,6 @@ CLAUDE.md
 .ck/
 .claude/
 .ckignore
+
+# Supabase local
+supabase/.temp/

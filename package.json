@@ -10,7 +10,12 @@
     "lint": "next lint",
     "test": "turbo run test",
     "build:packages": "turbo run build --filter='./packages/*'",
-    "lint:packages": "turbo run lint --filter='./packages/*'"
+    "lint:packages": "turbo run lint --filter='./packages/*'",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:reset": "supabase db reset",
+    "supabase:migrate": "supabase migration new",
+    "supabase:functions": "supabase functions serve"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --surface: #f9fafb;
+    --primary: #059669;
+    --destructive: #dc2626;
+    --text-primary: #1a1a1a;
+    --border: #e5e7eb;
+  }
+}
