@@ -2,7 +2,7 @@
 
 ## What This Is
 
-App tính thuế thu nhập cá nhân Việt Nam toàn diện — phiên bản mobile (React Native). Tax-core chạy trực tiếp trong mobile app (client-side primary calculation). Backend Node.js chỉ xử lý xác thực, lưu lịch sử, và push notification. Hỗ trợ đầy đủ Luật thuế TNCN 2026 (Luật 109/2025/QH15) với 40+ công cụ tính thuế chuyên biệt.
+App tính thuế thu nhập cá nhân Việt Nam toàn diện — phiên bản mobile (React Native). Tax-core chạy trực tiếp trong mobile app (client-side primary calculation). Backend dùng Supabase (auth, PostgreSQL, Edge Functions) — không cần self-hosted server. Hỗ trợ đầy đủ Luật thuế TNCN 2026 (Luật 109/2025/QH15) với 40+ công cụ tính thuế chuyên biệt.
 
 ## Core Value
 
@@ -26,7 +26,7 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 ### Active
 
 - [ ] React Native mobile app (iOS + Android)
-- [ ] Node.js backend API cho auth, history, push notification (KHÔNG có calculator endpoints)
+- [ ] Supabase backend (Auth, PostgreSQL, Edge Functions) cho auth, history, push notification (KHÔNG có calculator endpoints)
 - [ ] Đăng nhập/Đăng ký (email + Google OAuth)
 - [ ] Lưu lịch sử tính thuế theo tài khoản
 - [ ] Push notification nhắc deadline thuế và thay đổi luật
@@ -51,7 +51,8 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 
 ## Constraints
 
-- **Tech stack**: React Native (Expo hoặc bare) + Node.js backend
+- **Tech stack**: React Native (Expo hoặc bare) + Supabase (Auth, PostgreSQL, Edge Functions)
+- **Cost**: Free tier đủ cho MVP — 500MB DB, 50K MAU, unlimited API requests
 - **Platform**: iOS + Android đồng thời
 - **Reuse**: Logic tính thuế từ `src/lib/` phải reuse, không viết lại
 - **Chính xác**: Kết quả tính thuế phải khớp 100% với web hiện tại
@@ -64,8 +65,8 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 | Build independent mobile product | Web không thuộc sở hữu founder, cần product riêng | ✓ Approved |
 | Port toàn bộ 40+ tools trong v1 | Không muốn mất feature khi migrate | ✓ Approved |
 | Client-side primary calculation | tax-core chạy trong mobile, backend chỉ auth+history+push. Loại bỏ SPOF, giảm latency, offline-ready | ✓ Approved (CEO review) |
-| Node.js backend cho auth + history + push | Cần user accounts và persistence, KHÔNG cần calculator endpoints | ✓ Approved |
-| PostgreSQL | ACID cho financial data, relational model phù hợp tax history schema | ✓ Approved |
+| Supabase thay Fastify+tRPC+Prisma | Free tier đủ MVP, built-in auth (email+Google), RLS, Edge Functions — giảm 80% backend code | ✓ Approved |
+| PostgreSQL (via Supabase) | ACID cho financial data, relational model phù hợp tax history schema, Supabase hosts free | ✓ Approved |
 
 ## Evolution
 
