@@ -62,11 +62,10 @@ export function TaxDocumentGenerator({ sharedState, taxResult }: TaxDocumentGene
   // Available document types
   const documentTypes = useMemo(() => getDocumentTypes(), []);
 
-  // Calculate deductions
+  // Tính giảm trừ theo năm — luật mới áp dụng từ 01/01/2026 cho toàn năm
   const deductions = useMemo(() => {
-    const isSecondHalf2026 = year === 2026 && (month === undefined || month >= 7);
-    return getDeductionAmounts(year, isSecondHalf2026);
-  }, [year, month]);
+    return getDeductionAmounts(year);
+  }, [year]);
 
   // Build document input from shared state and tax result
   const buildDocumentInput = useCallback((): DocumentInput => {

@@ -442,11 +442,12 @@ export function getDocumentTypes(): Array<{ id: DocumentType; label: string; des
 /**
  * Get deduction amounts based on year
  */
-export function getDeductionAmounts(year: number, isSecondHalf2026: boolean = false): {
+export function getDeductionAmounts(year: number): {
   personalDeduction: number;
   dependentDeduction: number;
 } {
-  if (year >= 2026 && isSecondHalf2026) {
+  // FOUND-06: Luật 109/2025/QH15 áp dụng từ 01/01/2026 cho toàn năm
+  if (year >= 2026) {
     return {
       personalDeduction: PERSONAL_DEDUCTION_2026,
       dependentDeduction: DEPENDENT_DEDUCTION_2026,

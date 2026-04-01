@@ -56,7 +56,8 @@ export interface MultiSourceIncomeTabState {
   pensionContribution: number;
   charitableContribution: number;
   taxYear: 2025 | 2026;
-  isSecondHalf2026: boolean;
+  /** @deprecated Luật mới áp dụng từ 01/01/2026 cho toàn năm */
+  isSecondHalf2026?: boolean;
 }
 
 export const DEFAULT_MULTI_SOURCE_INCOME_STATE: MultiSourceIncomeTabState = {
@@ -66,7 +67,6 @@ export const DEFAULT_MULTI_SOURCE_INCOME_STATE: MultiSourceIncomeTabState = {
   pensionContribution: 0,
   charitableContribution: 0,
   taxYear: 2026,
-  isSecondHalf2026: true,
 };
 
 // Tax Treaty Tab State - defined here to avoid Turbopack import issues
@@ -131,13 +131,13 @@ export interface ContentCreatorIncomeSource {
 export interface ContentCreatorTabState {
   incomeSources: ContentCreatorIncomeSource[];
   taxYear: 2025 | 2026;
-  isSecondHalf2026: boolean;
+  /** @deprecated Luật mới áp dụng từ 01/01/2026 cho toàn năm */
+  isSecondHalf2026?: boolean;
 }
 
 export const DEFAULT_CONTENT_CREATOR_STATE: ContentCreatorTabState = {
   incomeSources: [],
   taxYear: 2026,
-  isSecondHalf2026: true,
 };
 
 // Crypto Tax Tab State - defined here to avoid Turbopack import issues
@@ -337,7 +337,8 @@ export interface ForeignerTaxTabState {
   };
   hasVietnameseInsurance: boolean;
   taxYear: 2025 | 2026;
-  isSecondHalf2026: boolean;
+  /** @deprecated Luật mới áp dụng từ 01/01/2026 cho toàn năm */
+  isSecondHalf2026?: boolean;
 }
 
 // Late Payment Interest Calculator tab state
@@ -520,7 +521,6 @@ export const DEFAULT_FOREIGNER_TAX_STATE: ForeignerTaxTabState = {
   },
   hasVietnameseInsurance: false,
   taxYear: 2026,
-  isSecondHalf2026: true,
 };
 
 // Helper to get current date in YYYY-MM-DD format
