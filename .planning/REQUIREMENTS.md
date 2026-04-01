@@ -22,15 +22,15 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 
 ### Backend API
 
-- [ ] **API-01**: Fastify server với tRPC router cho auth + history + push + share (KHÔNG có calculator endpoints — tax-core chạy client-side trong mobile)
-- [ ] **API-02**: PostgreSQL database với Prisma ORM — schema draft:
+- [x] **API-01**: Fastify server với tRPC router cho auth + history + push + share (KHÔNG có calculator endpoints — tax-core chạy client-side trong mobile)
+- [x] **API-02**: PostgreSQL database với Prisma ORM — schema draft:
   - `users` (id, email, password_hash, name, google_id?, created_at, updated_at)
   - `sessions` (id, user_id FK, refresh_token_hash, device_info, expires_at, created_at)
   - `calculation_history` (id, user_id FK, tool_name, input_json, result_json, snapshot_version INT, tax_core_version STRING, created_at)
   - `share_snapshots` (id, token UNIQUE 8-char, snapshot_json, snapshot_version INT, tax_core_version STRING, created_by FK?, expires_at, created_at)
   - `push_tokens` (id, user_id FK, token, platform enum(ios/android), created_at, updated_at)
-- [ ] **API-03**: JWT authentication — access token 15 min, refresh token 7 days w/ rotation, expo-secure-store, blacklist on logout, bcrypt password hashing
-- [ ] **API-04**: Google OAuth integration
+- [x] **API-03**: JWT authentication — access token 15 min, refresh token 7 days w/ rotation, expo-secure-store, blacklist on logout, bcrypt password hashing
+- [x] **API-04**: Google OAuth integration
 - [ ] **API-05**: API endpoint lưu calculation history (user + tool + input + result + timestamp)
 - [ ] **API-06**: API endpoint truy vấn history (list, filter by tool, filter by date range, search)
 - [ ] **API-07**: API endpoint xóa history (single + bulk delete)
@@ -146,14 +146,14 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 
 ### Security & Compliance
 
-- [ ] **SEC-01**: Login rate limiting (max 5 attempts/15 min per IP, exponential backoff)
-- [ ] **SEC-02**: PDPD compliance — privacy policy, data handling disclosure, consent flow cho salary/income PII (Vietnamese Personal Data Protection Decree)
+- [x] **SEC-01**: Login rate limiting (max 5 attempts/15 min per IP, exponential backoff)
+- [x] **SEC-02**: PDPD compliance — privacy policy, data handling disclosure, consent flow cho salary/income PII (Vietnamese Personal Data Protection Decree)
 - [x] **SEC-03**: App Store preparation — Done 2026-04-01
 
 ### Observability
 
-- [ ] **OBS-01**: Structured logging cho API (request/response, auth events, errors)
-- [ ] **OBS-02**: Health check endpoint (`/health`) for monitoring
+- [x] **OBS-01**: Structured logging cho API (request/response, auth events, errors)
+- [x] **OBS-02**: Health check endpoint (`/health`) for monitoring
 - [x] **OBS-03**: Client-side crash reporting (Sentry) — Done 2026-04-01
 - [x] **OBS-04**: Calculator usage analytics — Done 2026-04-01
 
@@ -203,10 +203,10 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | FOUND-05 | Phase 1 | Pending |
 | FOUND-06 | Phase 1 | Pending |
 | FOUND-07 | Phase 1 | Pending |
-| API-01 | Phase 2 | Pending |
-| API-02 | Phase 2 | Pending |
-| API-03 | Phase 2 | Pending |
-| API-04 | Phase 2 | Pending |
+| API-01 | Phase 2 | Complete |
+| API-02 | Phase 2 | Complete |
+| API-03 | Phase 2 | Complete |
+| API-04 | Phase 2 | Complete |
 | API-05 | Phase 2 | Pending |
 | API-06 | Phase 2 | Pending |
 | API-07 | Phase 2 | Pending |
@@ -282,11 +282,11 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | PUSH-02 | Phase 6 | Pending |
 | PUSH-03 | Phase 6 | Pending |
 | PUSH-04 | Phase 6 | Pending |
-| SEC-01 | Phase 2 | Pending |
-| SEC-02 | Phase 2 | Pending |
+| SEC-01 | Phase 2 | Complete |
+| SEC-02 | Phase 2 | Complete |
 | SEC-03 | Phase 3 | Done |
-| OBS-01 | Phase 2 | Pending |
-| OBS-02 | Phase 2 | Pending |
+| OBS-01 | Phase 2 | Complete |
+| OBS-02 | Phase 2 | Complete |
 | OBS-03 | Phase 3 | Done |
 | OBS-04 | Phase 3 | Done |
 
