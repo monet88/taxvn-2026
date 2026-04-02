@@ -22,6 +22,7 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 - ✓ Tính toán date-aware (tự chọn biểu thuế/giảm trừ theo ngày) — existing web
 - ✓ Phụ cấp miễn thuế vs chịu thuế — existing web
 - ✓ Lương khai báo BH riêng biệt với lương thực — existing web
+- ✓ Port toàn bộ 40+ công cụ tính thuế sang mobile UI — Validated in Phase 04: calculator-screens
 
 ### Active
 
@@ -30,7 +31,6 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 - [ ] Đăng nhập/Đăng ký (email + Google OAuth)
 - [ ] Lưu lịch sử tính thuế theo tài khoản
 - [ ] Push notification nhắc deadline thuế và thay đổi luật
-- [ ] Port toàn bộ 40+ công cụ tính thuế sang mobile UI
 
 ### Out of Scope
 
@@ -86,4 +86,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 after CEO review — architecture revised to client-side primary calculation*
+*Last updated: 2026-04-02 after Phase 04 completion*
