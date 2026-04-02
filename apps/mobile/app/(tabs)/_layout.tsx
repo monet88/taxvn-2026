@@ -43,6 +43,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="tools/[slug]"
+        options={{
+          href: null,
+          title: 'Chi Tiết Công Cụ',
+        }}
+      />
+      <Tabs.Screen
         name="tai-khoan"
         options={{
           title: 'Tài Khoản',

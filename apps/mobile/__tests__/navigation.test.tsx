@@ -11,6 +11,10 @@ describe('Navigation (UX-01)', () => {
     path.resolve(__dirname, '../app/(tabs)/_layout.tsx'),
     'utf-8'
   );
+  const toolListScreenSrc = fs.readFileSync(
+    path.resolve(__dirname, '../components/ToolListScreen.tsx'),
+    'utf-8'
+  );
 
   it('định nghĩa đúng 4 tab route theo spec UX-01', () => {
     expect(layoutSrc).toContain('name="index"');      // Tính Thuế
@@ -24,5 +28,16 @@ describe('Navigation (UX-01)', () => {
     expect(layoutSrc).toContain("'So Sánh'");
     expect(layoutSrc).toContain("'Tham Khảo'");
     expect(layoutSrc).toContain("'Tài Khoản'");
+  });
+
+  it('khai báo route detail cho calculator tool nhưng ẩn khỏi tab bar', () => {
+    expect(layoutSrc).toContain('name="tools/[slug]"');
+    expect(layoutSrc).toContain('href: null');
+  });
+
+  it('ToolListScreen tạo link điều hướng tới route detail theo slug', () => {
+    expect(toolListScreenSrc).toContain('Link');
+    expect(toolListScreenSrc).toContain("pathname: '/tools/[slug]'");
+    expect(toolListScreenSrc).toContain('tool.id');
   });
 });

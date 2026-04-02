@@ -1,11 +1,5 @@
-import { Text, View } from 'react-native';
+import { ToolListScreen } from '@/components/ToolListScreen';
 
 export default function ThamKhaoScreen() {
-  return (
-    <View className="flex-1 items-center justify-center bg-background">
-      <Text className="text-display font-semibold text-text-primary">Tham Khảo</Text>
-      <View className="h-[1px] w-[80%] bg-border my-md" />
-      <Text className="text-body text-primary">Biểu thuế, văn bản hướng dẫn</Text>
-    </View>
-  );
+  return <ToolListScreen group="reference" />;
 }

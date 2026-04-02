@@ -1,11 +1,16 @@
 import * as SecureStore from 'expo-secure-store';
-import { StateStorage } from 'zustand/middleware';
+
+export interface SecureStorageAdapter {
+  getItem: (name: string) => Promise<string | null>;
+  setItem: (name: string, value: string) => Promise<void>;
+  removeItem: (name: string) => Promise<void>;
+}
 
 /**
  * Custom storage adapter for Zustand persistence and Supabase Auth
  * providing secure storage on mobile devices.
  */
-export const secureStorage: StateStorage = {
+export const secureStorage: SecureStorageAdapter = {
   getItem: async (name: string): Promise<string | null> => {
     return await SecureStore.getItemAsync(name);
   },

@@ -15,10 +15,19 @@ export interface CalculationEntry {
   results: Record<string, any>;
 }
 
+export interface CalculatorDraft {
+  toolId: string;
+  updatedAt: string;
+  values: Record<string, string>;
+}
+
 interface CalculatorState {
   history: CalculationEntry[];
+  drafts: Record<string, CalculatorDraft>;
   addHistory: (entry: CalculationEntry) => void;
   clearHistory: () => void;
+  saveDraft: (toolId: string, values: Record<string, string>) => void;
+  clearDraft: (toolId: string) => void;
 }
 
 /**
@@ -29,11 +38,33 @@ export const useCalculatorStore = create<CalculatorState>()(
   persist(
     (set) => ({
       history: [],
+      drafts: {},
       addHistory: (entry) =>
         set((state) => ({
           history: [entry, ...state.history].slice(0, 100), // Cap at 100 entries for mobile UX
         })),
       clearHistory: () => set({ history: [] }),
+      saveDraft: (toolId, values) =>
+        set((state) => ({
+          drafts: {
+            ...state.drafts,
+            [toolId]: {
+              toolId,
+              updatedAt: new Date().toISOString(),
+              values: {
+                ...state.drafts[toolId]?.values,
+                ...values,
+              },
+            },
+          },
+        })),
+      clearDraft: (toolId) =>
+        set((state) => {
+          const drafts = { ...state.drafts };
+          delete drafts[toolId];
+
+          return { drafts };
+        }),
     }),
     {
       name: 'calculator-storage',
