@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-04-01T11:10:29.454Z"
-last_activity: 2026-04-01
+status: executing
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-04-02T05:11:37.223Z"
+last_activity: 2026-04-02
 progress:
   total_phases: 8
-  completed_phases: 5
-  total_plans: 13
-  completed_plans: 15
-  percent: 50
+  completed_phases: 6
+  total_plans: 18
+  completed_plans: 20
+  percent: 63
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** Nguoi lao dong Viet Nam co the tinh thue TNCN chinh xac, nhanh chong tren dien thoai — so sanh luat cu/moi, luu lich su, nhan nhac deadline thue.
-**Current focus:** Phase 03.1 — audit-recovery
+**Current focus:** Phase 04 — calculator-screens
 
 ## Current Position
 
-Phase: 4
+Phase: 5
 Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-04-01
+Status: Executing Phase 04
+Last activity: 2026-04-02
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 63%
 
 ## Performance Metrics
 
@@ -69,6 +69,10 @@ Recent decisions affecting current work:
 - [Phase 02]: Supabase client reads both SUPABASE_* and EXPO_PUBLIC_SUPABASE_* env vars for server/mobile compatibility
 - [Phase 02]: Edge Functions verified from Wave 1 -- share (NanoID 8-char), version-check (semver gate), health (deep DB check)
 - [Phase 02]: Integration tests use Supabase Auth admin API for ephemeral test users with graceful skip when Supabase not running
+- [Phase 04]: Mobile tool registry is the source of truth for all 42 calculator requirements; the old web tab registry is incomplete
+- [Phase 04]: Share remains login-optional via Supabase share token + `taxvn://share/{token}` deep link
+- [Phase 04]: Tool detail routes live under `(tabs)/tools/[slug]` and are hidden from the tab bar with `href: null`
+- [Phase 04]: Draft persistence stores sanitized numeric field values per tool slug in `useCalculatorStore`, keeping history separate for Phase 5 sync
 
 ### Pending Todos
 
@@ -76,13 +80,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- Phase 1 has known pre-existing bugs that must be fixed before any migration: `isSecondHalf2026` flag (7 files), bracket inconsistency between incomeSummaryCalculator and taxCalculator, non-pure imports in grossNetCalculator and inheritanceGiftTaxCalculator.
-- NativeWind v4.2.x + Expo SDK 55 compatibility not fully verified — validate with minimal test scaffold at start of Phase 4 before building 42 screens on top.
-- tRPC v11 Fastify adapter — run smoke test in Phase 2's first PR to surface version incompatibilities early.
+- Phase 4 compile baseline is fixed, but live calculator detail routes still need first on-device validation once interactive calculator screens land.
 - Phase 6 (push notifications) needs research: EAS push service vs self-managed FCM v1, APNs certificate provisioning, cron scheduling.
 
 ## Session Continuity
 
-Last session: 2026-04-01T07:23:20.754Z
-Stopped at: Completed 02-02-PLAN.md
-Resume file: None
+Last session: 2026-04-01T12:34:42.3400164Z
+Stopped at: Completed 04-02-PLAN.md
+Resume file: .planning/phases/04-calculator-screens/04-03-PLAN.md

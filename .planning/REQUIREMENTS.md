@@ -60,14 +60,14 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
   - Border radius: sm 6px (inputs), md 12px (cards), lg 16px (modals)
   - Touch targets: minimum 44x44px per Apple HIG
   - Font: System default (SF Pro on iOS, Roboto on Android) — Vietnamese diacritics support
-- [ ] **UX-02**: Real-time recalculation khi user nhập — kết quả cập nhật không cần bấm nút
+- [x] **UX-02**: Real-time recalculation khi user nhập — kết quả cập nhật không cần bấm nút
 - [x] **UX-10**: Accessibility baseline - Done 2026-04-01
-- [ ] **UX-03**: VND input formatting với numeric keyboard phù hợp
-- [ ] **UX-04**: Input auto-save / draft persistence khi switch app hoặc bị gián đoạn
-- [ ] **UX-05**: Native Share Sheet cho kết quả tính thuế (text + deep link)
+- [x] **UX-03**: VND input formatting với numeric keyboard phù hợp
+- [x] **UX-04**: Input auto-save / draft persistence khi switch app hoặc bị gián đoạn
+- [x] **UX-05**: Native Share Sheet cho kết quả tính thuế (text + deep link)
 - [x] **UX-07**: Deep link handler - Done 2026-04-01
 - [x] **UX-08**: Tax-core version check on open - Done 2026-04-01
-- [ ] **UX-06**: Interaction states for all screens:
+- [x] **UX-06**: Interaction states for all screens:
   - Calculator: skeleton shimmer while loading, placeholder "25,000,000 ₫" in empty input, red border + "Số không hợp lệ" on error, green savings row pulse on success
   - History: skeleton rows loading, illustration + "Chưa có lịch sử" empty state with CTA, retry button on error
   - Auth: button spinner on loading, inline error messages, toast on success
@@ -100,30 +100,30 @@ Requirements cho bản phát hành đầu tiên. Mỗi requirement map đến ro
 - [ ] **CALC-14**: So sánh salary offers (salary-compare)
 - [ ] **CALC-15**: So sánh thuế theo năm (yearly)
 - [ ] **CALC-16**: Dự tính lương hưu (pension)
-- [ ] **CALC-17**: Chi tiết bảo hiểm (insurance)
-- [ ] **CALC-18**: Thu nhập khác (other-income)
-- [ ] **CALC-19**: Biểu thuế suất (table)
-- [ ] **CALC-20**: Lịch sử luật thuế (tax-history)
-- [ ] **CALC-21**: Lịch thuế (tax-calendar)
-- [ ] **CALC-22**: Phiếu lương (salary-slip)
-- [ ] **CALC-23**: Kiểm tra miễn thuế (exemption-checker)
-- [ ] **CALC-24**: Tính tiền phạt chậm nộp (late-payment)
+- [x] **CALC-17**: Chi tiết bảo hiểm (insurance)
+- [x] **CALC-18**: Thu nhập khác (other-income)
+- [x] **CALC-19**: Biểu thuế suất (table)
+- [x] **CALC-20**: Lịch sử luật thuế (tax-history)
+- [x] **CALC-21**: Lịch thuế (tax-calendar)
+- [x] **CALC-22**: Phiếu lương (salary-slip)
+- [x] **CALC-23**: Kiểm tra miễn thuế (exemption-checker)
+- [x] **CALC-24**: Tính tiền phạt chậm nộp (late-payment)
 - [ ] **CALC-25**: So sánh hình thức kinh doanh (business-form)
 - [ ] **CALC-26**: Trợ cấp thôi việc (severance)
-- [ ] **CALC-27**: Tạo tờ khai thuế (tax-document)
+- [x] **CALC-27**: Tạo tờ khai thuế (tax-document)
 - [ ] **CALC-28**: Tính thuế VAT (vat)
 - [ ] **CALC-29**: Thuế khấu trừ tại nguồn (withholding-tax)
 - [ ] **CALC-30**: Thu nhập đa nguồn (multi-source-income)
-- [ ] **CALC-31**: Tra cứu hiệp định thuế (tax-treaty)
+- [x] **CALC-31**: Tra cứu hiệp định thuế (tax-treaty)
 - [ ] **CALC-32**: Tối ưu thuế vợ chồng (couple-optimizer)
 - [ ] **CALC-33**: Thuế content creator (content-creator)
 - [ ] **CALC-34**: Thuế crypto (crypto-tax)
-- [ ] **CALC-35**: Quản lý deadline thuế (tax-deadline)
+- [x] **CALC-35**: Quản lý deadline thuế (tax-deadline)
 - [ ] **CALC-36**: Dashboard tổng hợp thu nhập (income-summary)
 - [ ] **CALC-37**: So sánh theo vùng (region-compare)
 - [ ] **CALC-38**: Kế hoạch hàng tháng (monthly-planner)
 - [ ] **CALC-39**: Tính thuế mua nhà (mua-nha)
-- [ ] **CALC-40**: Mẹo tối ưu thuế (tax-optimization-tips)
+- [x] **CALC-40**: Mẹo tối ưu thuế (tax-optimization-tips)
 - [ ] **CALC-41**: Mô phỏng kế hoạch thuế (tax-planning-simulator)
 - [ ] **CALC-42**: Thuế thừa kế/quà tặng (inheritance-gift)
 
@@ -222,11 +222,11 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | AUTH-05 | Phase 3.1 | Complete |
 | AUTH-06 | Phase 3.1 | Complete |
 | UX-01 | Phase 3.1 | Complete |
-| UX-02 | Phase 4 | Pending |
-| UX-03 | Phase 4 | Pending |
-| UX-04 | Phase 4 | Pending |
-| UX-05 | Phase 4 | Pending |
-| UX-06 | Phase 4 | Pending |
+| UX-02 | Phase 4 | Complete |
+| UX-03 | Phase 4 | Complete |
+| UX-04 | Phase 4 | Complete |
+| UX-05 | Phase 4 | Complete |
+| UX-06 | Phase 4 | Complete |
 | UX-07 | Phase 3.1 | Complete |
 | UX-08 | Phase 3.1 | Complete |
 | CALC-01 | Phase 4 | Pending |
@@ -245,30 +245,30 @@ Note: Client-side calculation works offline by default in v1. What's deferred to
 | CALC-14 | Phase 4 | Pending |
 | CALC-15 | Phase 4 | Pending |
 | CALC-16 | Phase 4 | Pending |
-| CALC-17 | Phase 4 | Pending |
-| CALC-18 | Phase 4 | Pending |
-| CALC-19 | Phase 4 | Pending |
-| CALC-20 | Phase 4 | Pending |
-| CALC-21 | Phase 4 | Pending |
-| CALC-22 | Phase 4 | Pending |
-| CALC-23 | Phase 4 | Pending |
-| CALC-24 | Phase 4 | Pending |
+| CALC-17 | Phase 4 | Complete |
+| CALC-18 | Phase 4 | Complete |
+| CALC-19 | Phase 4 | Complete |
+| CALC-20 | Phase 4 | Complete |
+| CALC-21 | Phase 4 | Complete |
+| CALC-22 | Phase 4 | Complete |
+| CALC-23 | Phase 4 | Complete |
+| CALC-24 | Phase 4 | Complete |
 | CALC-25 | Phase 4 | Pending |
 | CALC-26 | Phase 4 | Pending |
-| CALC-27 | Phase 4 | Pending |
+| CALC-27 | Phase 4 | Complete |
 | CALC-28 | Phase 4 | Pending |
 | CALC-29 | Phase 4 | Pending |
 | CALC-30 | Phase 4 | Pending |
-| CALC-31 | Phase 4 | Pending |
+| CALC-31 | Phase 4 | Complete |
 | CALC-32 | Phase 4 | Pending |
 | CALC-33 | Phase 4 | Pending |
 | CALC-34 | Phase 4 | Pending |
-| CALC-35 | Phase 4 | Pending |
+| CALC-35 | Phase 4 | Complete |
 | CALC-36 | Phase 4 | Pending |
 | CALC-37 | Phase 4 | Pending |
 | CALC-38 | Phase 4 | Pending |
 | CALC-39 | Phase 4 | Pending |
-| CALC-40 | Phase 4 | Pending |
+| CALC-40 | Phase 4 | Complete |
 | CALC-41 | Phase 4 | Pending |
 | CALC-42 | Phase 4 | Pending |
 | HIST-01 | Phase 5 | Pending |

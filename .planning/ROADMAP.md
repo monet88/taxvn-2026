@@ -125,6 +125,6 @@ Phases 2 and 3 can run in parallel after Phase 1 completes. Phase 4 is blocked o
 | 3. Mobile Foundation | 4/4 | Completed | 2026-04-01 |
 | 3.1 Audit & Verification Recovery | 0/? | Not started | - |
 | 3.2 Backend Integration & Rate Limiting | 0/? | Not started | - |
-| 4. Calculator Screens | 0/? | Not started | - |
+| 4. Calculator Screens | 2/5 | In progress | - |
 | 5. Calculation History | 0/? | Not started | - |
 | 6. Push Notifications | 0/? | Not started | - |
