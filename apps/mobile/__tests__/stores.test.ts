@@ -48,13 +48,7 @@ describe('useAuthStore (AUTH-00, AUTH-05)', () => {
 
 describe('useCalculatorStore (AUTH-00)', () => {
   beforeEach(() => {
-    useCalculatorStore.setState({ history: [], drafts: {} } as any);
-  });
-
-  it('history mặc định là mảng rỗng', () => {
-    const { history } = useCalculatorStore.getState();
-    expect(Array.isArray(history)).toBe(true);
-    expect(history).toHaveLength(0);
+    useCalculatorStore.setState({ drafts: {} } as any);
   });
 
   it('lưu draft theo từng tool slug và merge field mới vào draft cũ (UX-04)', () => {
@@ -73,17 +67,9 @@ describe('useCalculatorStore (AUTH-00)', () => {
     });
   });
 
-  it('clearDraft chỉ xóa draft của tool được chọn và giữ nguyên history', () => {
+  it('clearDraft chỉ xóa draft của tool được chọn', () => {
     const store = useCalculatorStore.getState();
 
-    store.addHistory({
-      id: 'history-1',
-      toolId: 'calculator',
-      toolName: 'Tính thuế TNCN',
-      timestamp: '2026-04-01T12:00:00.000Z',
-      inputs: { primaryAmount: 25000000 },
-      results: { tax: 123456 },
-    });
     store.saveDraft('calculator', { primaryAmount: '25000000' });
     store.saveDraft('gross-net', { primaryAmount: '32000000' });
 
@@ -91,7 +77,6 @@ describe('useCalculatorStore (AUTH-00)', () => {
 
     expect(useCalculatorStore.getState().drafts.calculator).toBeUndefined();
     expect(useCalculatorStore.getState().drafts['gross-net']).toBeDefined();
-    expect(useCalculatorStore.getState().history).toHaveLength(1);
   });
 });
 

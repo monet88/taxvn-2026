@@ -63,3 +63,4 @@ CLAUDE.md
 
 # Supabase local
 supabase/.temp/
+packages/tax-core/.osgrep/

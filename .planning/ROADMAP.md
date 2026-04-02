@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 3.1: Audit & Verification Recovery** - INSERTED: Generate missing VERIFICATION.md files and add tracking metadata
 - [ ] **Phase 3.2: Backend Integration & Rate Limiting** - INSERTED: Configure Google OAuth and stricter rate limiting
 - [ ] **Phase 4: Calculator Screens** - All 42 calculator tools ported to mobile with real-time recalculation
-- [ ] **Phase 5: Calculation History** - Per-account history list, search, filter, restore, auto-save
+- [x] **Phase 5: Calculation History** - Per-account history list, search, filter, restore, auto-save
 - [ ] **Phase 6: Push Notifications** - Local deadline reminders and remote law-change alerts
 
 ## Phase Details
@@ -125,6 +125,6 @@ Phases 2 and 3 can run in parallel after Phase 1 completes. Phase 4 is blocked o
 | 3. Mobile Foundation | 4/4 | Completed | 2026-04-01 |
 | 3.1 Audit & Verification Recovery | 0/? | Not started | - |
 | 3.2 Backend Integration & Rate Limiting | 0/? | Not started | - |
-| 4. Calculator Screens | 2/5 | In progress | - |
-| 5. Calculation History | 0/? | Not started | - |
+| 4. Calculator Screens | 5/5 | Completed | 2026-04-02 |
+| 5. Calculation History | 3/3 | Completed | 2026-04-02 |
 | 6. Push Notifications | 0/? | Not started | - |

@@ -6,14 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  * Basic structure for a history entry.
  * Will be refined in Phase 5.
  */
-export interface CalculationEntry {
-  id: string;
-  toolId: string;
-  toolName: string;
-  timestamp: string;
-  inputs: Record<string, any>;
-  results: Record<string, any>;
-}
+
 
 export interface CalculatorDraft {
   toolId: string;
@@ -22,10 +15,7 @@ export interface CalculatorDraft {
 }
 
 interface CalculatorState {
-  history: CalculationEntry[];
   drafts: Record<string, CalculatorDraft>;
-  addHistory: (entry: CalculationEntry) => void;
-  clearHistory: () => void;
   saveDraft: (toolId: string, values: Record<string, string>) => void;
   clearDraft: (toolId: string) => void;
 }
@@ -37,13 +27,7 @@ interface CalculatorState {
 export const useCalculatorStore = create<CalculatorState>()(
   persist(
     (set) => ({
-      history: [],
       drafts: {},
-      addHistory: (entry) =>
-        set((state) => ({
-          history: [entry, ...state.history].slice(0, 100), // Cap at 100 entries for mobile UX
-        })),
-      clearHistory: () => set({ history: [] }),
       saveDraft: (toolId, values) =>
         set((state) => ({
           drafts: {
