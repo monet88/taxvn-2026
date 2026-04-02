@@ -76,7 +76,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- [Manual UAT cho Phase 05 và 06](todos/pending/2026-04-02-manual-uat-phase-05-06.md)
 
 ### Blockers/Concerns
 
