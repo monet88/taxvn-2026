@@ -1,5 +1,8 @@
-import { ScrollView, Text, TouchableOpacity, View, Alert } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View, Alert, Switch, Linking } from 'react-native';
+import { useEffect, useState } from 'react';
+import * as Notifications from 'expo-notifications';
 import { useAuthStore } from '../../stores/useAuthStore';
+import { useAppStore } from '../../stores/useAppStore';
 import { supabase } from '../../utils/supabase';
 import { Link } from 'expo-router';
 
@@ -8,10 +11,34 @@ import { Link } from 'expo-router';
  */
 export default function TaiKhoanScreen() {
   const session = useAuthStore((state) => state.session);
+  const { notificationSettings, setNotificationSettings } = useAppStore();
+  const [permissionStatus, setPermissionStatus] = useState<string>('undetermined');
+
+  useEffect(() => {
+    Notifications.getPermissionsAsync().then((status) => {
+      setPermissionStatus(status.status);
+    });
+  }, []);
 
   async function handleSignOut() {
     const { error } = await supabase.auth.signOut();
     if (error) Alert.alert('Lỗi', error.message);
+  }
+
+  // Update backend config if user is logged in
+  async function updateBackendConfig(key: 'notification_deadlines' | 'notification_law_changes', val: boolean) {
+    if (!session?.user?.id) return;
+    try {
+      await supabase.from('user_settings').upsert(
+        {
+          user_id: session.user.id,
+          [key]: val,
+        },
+        { onConflict: 'user_id' }
+      );
+    } catch {
+      // Background sync, no need to alert
+    }
   }
 
   return (
@@ -25,6 +52,56 @@ export default function TaiKhoanScreen() {
         <Text className="text-heading font-semibold text-text-primary">
           {session ? session.user.email : 'Người dùng khách'}
         </Text>
+      </View>
+
+      <View className="mb-xl pt-lg border-t border-border">
+        <Text className="text-label font-semibold text-text-primary mb-md" accessibilityRole="header">
+          Cài đặt thông báo
+        </Text>
+
+        {permissionStatus === 'denied' && (
+          <TouchableOpacity
+            className="bg-yellow-100 p-sm rounded-md mb-md border border-yellow-300"
+            onPress={() => Linking.openSettings()}
+          >
+            <Text className="text-body text-yellow-800 font-semibold mb-xs">Thông báo đang bị tắt</Text>
+            <Text className="text-body text-yellow-800">
+              Nhấn vào đây để mở Cài đặt thiết bị và cấp quyền gửi thông báo cho ứng dụng.
+            </Text>
+          </TouchableOpacity>
+        )}
+
+        <View className="flex-row justify-between items-center mb-md py-sm border-b border-border">
+          <View className="flex-1 pr-sm">
+            <Text className="text-body font-semibold text-text-primary mb-xs">Nhắc deadline thuế</Text>
+            <Text className="text-[14px] text-gray-500">
+              Nhắc nhở nộp tờ khai và quyết toán định kỳ (Local, offline)
+            </Text>
+          </View>
+          <Switch
+            value={notificationSettings.deadlines}
+            onValueChange={(val) => {
+              setNotificationSettings({ deadlines: val });
+              updateBackendConfig('notification_deadlines', val);
+            }}
+          />
+        </View>
+
+        <View className="flex-row justify-between items-center py-sm border-b border-border">
+          <View className="flex-1 pr-sm">
+            <Text className="text-body font-semibold text-text-primary mb-xs">Nhắc luật thay đổi</Text>
+            <Text className="text-[14px] text-gray-500">
+              Cập nhật quy định mới sớm nhất từ hệ thống
+            </Text>
+          </View>
+          <Switch
+            value={notificationSettings.lawChanges}
+            onValueChange={(val) => {
+              setNotificationSettings({ lawChanges: val });
+              updateBackendConfig('notification_law_changes', val);
+            }}
+          />
+        </View>
       </View>
 
       <View className="gap-md">

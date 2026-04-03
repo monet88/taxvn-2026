@@ -12,32 +12,32 @@ Người lao động Việt Nam có thể tính thuế TNCN chính xác, nhanh c
 
 ### Validated
 
-<!-- Đã hoạt động trong web hiện tại — port sang mobile -->
+<!-- Đã hoạt động trong web hiện tại và được port sang mobile trong v1.0 -->
 
-- ✓ Tính thuế TNCN so sánh biểu thuế 7 bậc vs 5 bậc — existing web
-- ✓ Quy đổi GROSS↔NET bằng binary search — existing web
-- ✓ 40+ công cụ tính thuế chuyên biệt (OT, thưởng, ESOP, BĐS, chứng khoán, hộ KD, lương hưu...) — existing web
-- ✓ Chia sẻ kết quả qua URL/QR code — existing web
-- ✓ Xuất PDF báo cáo thuế — existing web
-- ✓ Tính toán date-aware (tự chọn biểu thuế/giảm trừ theo ngày) — existing web
-- ✓ Phụ cấp miễn thuế vs chịu thuế — existing web
-- ✓ Lương khai báo BH riêng biệt với lương thực — existing web
-- ✓ Port toàn bộ 40+ công cụ tính thuế sang mobile UI — Validated in Phase 04: calculator-screens
+- ✓ Tính thuế TNCN so sánh biểu thuế 7 bậc vs 5 bậc — v1.0
+- ✓ Quy đổi GROSS↔NET bằng binary search — v1.0
+- ✓ 40+ công cụ tính thuế chuyên biệt (OT, thưởng, ESOP, BĐS, chứng khoán, hộ KD, lương hưu...) — v1.0
+- ✓ Chia sẻ kết quả qua URL/QR code — v1.0
+- ✓ Xuất PDF báo cáo thuế — v1.0
+- ✓ Tính toán date-aware (tự chọn biểu thuế/giảm trừ theo ngày) — v1.0
+- ✓ Phụ cấp miễn thuế vs chịu thuế — v1.0
+- ✓ Lương khai báo BH riêng biệt với lương thực — v1.0
+- ✓ React Native mobile app (iOS + Android) — v1.0
+- ✓ Supabase backend (Auth, PostgreSQL, Edge Functions) cho auth, history, push notification — v1.0
+- ✓ Đăng nhập/Đăng ký (email + Google OAuth) — v1.0
+- ✓ Lưu lịch sử tính thuế theo tài khoản — v1.0
+- ✓ Push notification nhắc deadline thuế và thay đổi luật — v1.0
 
 ### Active
 
-- [ ] React Native mobile app (iOS + Android)
-- [ ] Supabase backend (Auth, PostgreSQL, Edge Functions) cho auth, history, push notification (KHÔNG có calculator endpoints)
-- [ ] Đăng nhập/Đăng ký (email + Google OAuth)
-- [ ] Lưu lịch sử tính thuế theo tài khoản
-- [ ] Push notification nhắc deadline thuế và thay đổi luật
+*(Chuẩn bị lên kế hoạch cho v1.1 hoặc v2.0)*
 
 ### Out of Scope
 
 - Web app hiện tại thuộc bên thứ ba — build independent product
-- Full offline mode with sync — v2 (nhưng client-side calculation hoạt động offline sẵn)
+- Full offline mode with sync — v2 (client-side calculation hoạt động offline sẵn)
 - Dark mode — v2
-- Đa ngôn ngữ (i18n) — chỉ tiếng Việt trong v1
+- Đa ngôn ngữ (i18n) — chỉ tiếng Việt trong v1.0
 - Admin dashboard — v2
 
 ## Context
