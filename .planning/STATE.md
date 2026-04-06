@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 05 execution complete
+status: Phase 05 Calculation History executed and compiled
 stopped_at: Phase 05 execution complete
-last_updated: "2026-04-02T05:50:00.000Z"
+last_updated: "2026-04-02T14:21:23.148Z"
 last_activity: 2026-04-02
 progress:
   total_phases: 8
-  completed_phases: 6
-  total_plans: 18
-  completed_plans: 20
+  completed_phases: 7
+  total_plans: 24
+  completed_plans: 24
   percent: 100
 ---
 
@@ -76,7 +76,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- [Manual UAT cho Phase 05 và 06](todos/pending/2026-04-02-manual-uat-phase-05-06.md)
 
 ### Blockers/Concerns
 

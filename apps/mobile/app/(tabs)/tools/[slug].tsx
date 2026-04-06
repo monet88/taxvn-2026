@@ -1,5 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
+import { useEffect } from 'react';
 
 import {
   ActionRow,
@@ -24,6 +25,8 @@ import {
 } from '@/lib/taxCore';
 import { useCalculatorStore } from '@/stores/useCalculatorStore';
 import { formatCurrencyInput } from '@/utils/numericInput';
+import { usePushNotifications } from '@/hooks/usePushNotifications';
+import { useAppStore } from '@/stores/useAppStore';
 
 interface ToolDetailScreenContentProps {
   slug: string;
@@ -425,6 +428,22 @@ export function ToolDetailScreenContent({ slug }: ToolDetailScreenContentProps) 
 
   const values = (draft?.values ?? {}) as RuntimeDraftValues;
   const hasDraft = Boolean(draft);
+  const { requestPermissionsIfFirstTime } = usePushNotifications();
+  const { hasAskedPush, setHasAskedPush } = useAppStore();
+
+  useEffect(() => {
+    if (hasDraft && !hasAskedPush) {
+      // Debounce or just ask immediately when they first do a calculation
+      Alert.alert(
+        'Nhận thông báo quan trọng',
+        'Nhấn cho phép để nhận nhắc deadline nộp thuế và các thay đổi luật mới nhất.',
+        [
+          { text: 'Để sau', style: 'cancel', onPress: () => setHasAskedPush(true) },
+          { text: 'Cho phép', onPress: () => requestPermissionsIfFirstTime() },
+        ]
+      );
+    }
+  }, [hasDraft, hasAskedPush, setHasAskedPush, requestPermissionsIfFirstTime]);
   
   const handleShare = () => {
     shareToolState(slug, values, tool.title);

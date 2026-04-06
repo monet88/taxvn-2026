@@ -58,10 +58,17 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+import { usePushNotifications } from '../hooks/usePushNotifications';
+import { useLocalReminders } from '../hooks/useLocalReminders';
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const setSession = useAuthStore((state) => state.setSession);
   const setVersionMismatch = useAppStore((state) => state.setVersionMismatch);
+
+  // Initialize notifications
+  usePushNotifications();
+  useLocalReminders();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
